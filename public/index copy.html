@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reach+ - بره الصندوق</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            Reach<span class="plus">+</span>
+        </a>
+        <button class="lang-toggle" onclick="toggleLanguage()">EN</button>
+    </nav>
+
+    <!-- Enhanced Hero Section -->
+    <section class="hero">
+        <!-- Background logos - moved outside hero-content and added hero-logo class -->
+        <img src="images/logo.png" alt="Reach+ Logo" class="hero-logo hero-logo-1">
+        <img src="images/logolc.png" alt="Reach+ Logo" class="hero-logo hero-logo-2">
+        <div class="hero-spacer"></div>
+        <div class="hero-content">
+            <!-- Title logo -->
+            <img src="images//logo.png" alt="Smart Life " class="hero-logo hero-logo-3">
+            <h1 class="hero-title">Smart Living Starts Here — Everything for Your Home, Smarter and Simpler</h1>
+            <p class="hero-subtitle">Where Smart Homes Begin.</p>
+            <div class="cta-buttons" dir="rtl">
+                <a href="/signin" class="btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="btn-text" data-en="Sign In" data-ar=" سجل الدخول"> سجل الدخول </span>
+                </a>
+                <a href="/adminForm" class="btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    <span class="btn-text" data-en="Create it Yourself" data-ar="أنشئ بنفسك">ابدأ الآن </span>
+                </a>
+                <a href="#" class="btn-whatsapp" onclick="openWhatsApp()">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="btn-text" data-en="Contact us on WhatsApp" data-ar=" تبي نجهزلك الصفحة؟ ، دزلنا على الواتساب"> تبي نجهزلك الصفحة؟  دزلنا على الواتساب  </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Enhanced Features Section -->
+        <section class="features" id="features">
+            <h2 data-en="Reach+ Features" data-ar="مميزات ريتش بلس">مميزات ريتش بلس</h2>
+           
+                <div class="feature-card">
+                    <i class="fas fa-store"></i>
+                    <h3 data-en="Mini Store" data-ar="متجر مصغر">متجر مصغر</h3>
+                    <p data-en="Showcase your products with a direct link to WhatsApp Business and an 'Ask me about this product' feature." 
+                       data-ar="عرض منتجاتك مع ربط مباشر مع واتساب للأعمال وخاصية &quot;اسألني عن المنتج&quot;">
+                       عرض منتجاتك مع ربط مباشر مع واتساب للأعمال وخاصية "اسألني عن المنتج"
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-globe"></i>
+                        <h3 data-en="social media" data-ar=" سوشيال ميديا"> </h3>
+                        <p data-en="Make it easy for everyone to find and connect with you from a single link." 
+                        data-ar="اجعل الوصول إلى جميع حساباتك الاجتماعية سهلاً من خلال رابط واحد.">
+                       
+                           اجعل الوصول إلى جميع حساباتك الاجتماعية سهلاً من خلال رابط واحد فقط.  .
+                        </p>
+                    </div>
+                <div class="feature-card">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3 data-en="Google Maps" data-ar="خرائط جوجل">خرائط جوجل</h3>
+                    <p data-en="Add your business location easily, with an option to display a video guide." 
+                       data-ar="اضف موقع عملك بسهولة مع إمكانية عرض فيديو توضيحي للوصول">
+                       اضف موقع عملك بسهولة مع إمكانية عرض فيديو توضيحي للوصول
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-camera"></i>
+                    <h3 data-en="Photography Services" data-ar="خدمات التصوير">خدمات التصوير</h3>
+                    <p data-en="Professional photography services for your products and services to enhance your visual presence."
+                       data-ar="خدمات تصوير احترافية لمنتجاتك وخدماتك لتعزيز حضورك البصري">
+                       خدمات تصوير احترافية لمنتجاتك وخدماتك لتعزيز حضورك البصري
+                    </p>
+                </div>
+                <div class="feature-card location-feature">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3 class="feature-title" data-en="Maps & Video Guide" data-ar="خرائط وفيديو توضيحي">خرائط وفيديو توضيحي</h3>
+                    <p data-en="Add your business location with a video guide to help customers easily find your office or store inside the building."
+                       data-ar="اضف موقع عملك مع فيديو توضيحي يساعد العملاء في الوصول بسهولة إلى مكتبك أو متجرك داخل المبنى">
+                       اضف موقع عملك مع فيديو توضيحي يساعد العملاء في الوصول بسهولة إلى مكتبك أو متجرك داخل المبنى
+                    </p>
+                    <div class="location-video-preview">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Enhanced Showcase Section -->
+        <section class="showcase" id="showcase">
+            <h2 data-en="How does Reach+ work?" data-ar="كيف يعمل ريتش بلس؟">كيف يعمل ريتش بلس؟</h2>
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="showcase-image-wrapper">
+                        <img src="/api/placeholder/400/300" alt="Link Management" class="showcase-image">
+                        <div class="showcase-overlay">
+                            <i class="fas fa-link"></i>
+                        </div>
+                    </div>
+                    <h3 data-en="Smart Link Management" data-ar="إدارة الروابط بذكاء">إدارة الروابط بذكاء</h3>
+                    <p data-en="Collect all your important links in one place and organize them professionally."
+                       data-ar="اجمع كل روابطك المهمة في مكان واحد وقم بتنظيمها بشكل احترافي">
+                       اجمع كل روابطك المهمة في مكان واحد وقم بتنظيمها بشكل احترافي
+                    </p>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-image-wrapper">
+                        <img src="/api/placeholder/400/300" alt="Product Showcase" class="showcase-image">
+                        <div class="showcase-overlay">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                    </div>
+                    <h3 data-en="Comprehensive Product Showcase" data-ar="معرض منتجات متكامل">معرض منتجات متكامل</h3>
+                    <p data-en="Showcase your products with options for direct contact via WhatsApp."
+                       data-ar="اعرض منتجاتك مع خيارات التواصل المباشر عبر واتساب">
+                       اعرض منتجاتك مع خيارات التواصل المباشر عبر واتساب
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+
+        <!-- Enhanced CTA Section -->
+        <section class="cta-section" id="start">
+            <div class="cta-content">
+                <h2>جاهز لتطوير حضورك الرقمي؟</h2>
+                <p>راسلنا على واتساب وسنقوم بإنشاء صفحتك خلال ٢٤ ساعة!</p>
+                <div class="cta-buttons" dir="rtl">
+                    <a href="/adminForm" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        <span class="btn-text" data-en="Create Yourself" data-ar="أنشئ بنفسك">ابدأ الآن </span>
+                    </a>
+                    <a href="#" class="btn-whatsapp" onclick="openWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                        <span class="btn-text" data-en="Contact us on WhatsApp" data-ar=" تبي نجهزلك الصفحة؟ ، دزلنا على الواتساب"> تبي نجهزلك الصفحة؟  دزلنا على الواتساب  </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 data-en="Contact Us" data-ar="تواصل معنا">تواصل معنا</h4>
+                
+                <p><i class="fab fa-whatsapp"></i> <a id="email-link" href="tel:+96569971907"> <span data-en="WhatsApp: +96569971907" data-ar="واتساب: +965 9971907 ">واتساب: +965 9971907</span></a></p>
+
+               <p><i class="far fa-envelope"></i> <a id="email-link" href="mailto:info@reachplus.kw"><span data-en="Email: info@reachplus.kw" data-ar="البريد الإلكتروني: info@reachplus.kw">البريد الإلكتروني: info@reachplus.kw</span> </a></p>
+            </div>
+            <div class="footer-section">
+                <h4 data-en="Support" data-ar="الدعم">الدعم</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> <span data-en="FAQ" data-ar="الأسئلة الشائعة">الأسئلة الشائعة</span></a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> <span data-en="Privacy Policy" data-ar="سياسة الخصوصية">سياسة الخصوصية</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> <span data-en="Terms & Conditions" data-ar="الشروط والأحكام">الشروط والأحكام</span></a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <p class="copyright">
+                    <i class="far fa-copyright"></i> <span data-en="2024 Reach+ by Outside the Box. All rights reserved." data-ar="2024 Reach+ by بره الصندوق. جميع الحقوق محفوظة">
+                        <span dir="ltr"> Reach+ 2024</span> 
+                        <span dir="rtl">بره الصندوق  </span>.
+                        <span dir="rtl">جميع الحقوق محفوظة</span>                    </p>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script src="scripts.js"></script>
+</body>
+</html>

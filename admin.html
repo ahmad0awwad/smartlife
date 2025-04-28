@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - SmartLife Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .preview-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Admin Panel</h1>
+
+<!-- Product Form -->
+<form id="productForm" enctype="multipart/form-data">
+    <h2>Add New Product</h2>
+
+    <select id="category" required>
+        <option value="">Loading Categories...</option>
+    </select><br>
+
+    <input type="text" id="name" placeholder="Product Name" required><br>
+    <input type="number" id="price" placeholder="Price" required><br>
+
+    <label>Main Image:</label><br>
+    <input type="file" id="mainImage" accept="image/*" required><br>
+    <div id="mainImagePreview" class="preview-container"></div>
+
+    <label>Gallery Images:</label><br>
+    <input type="file" id="galleryImages" accept="image/*" multiple><br>
+    <div id="galleryPreview" class="preview-container"></div>
+
+    <textarea id="description" rows="5" placeholder="Product Description" required></textarea><br>
+
+    <input type="text" id="buyLink" placeholder="Buy Now Link (optional)"><br>
+    <input type="text" id="seeMoreLink" placeholder="See More Link (optional)"><br>
+<!-- Special Category -->
+<label>Special Category:</label><br>
+<select id="specialCategory">
+    <option value="none">None</option>
+    <option value="Best Sellers">Best Sellers</option>
+    <option value="New Arrivals">New Arrivals</option>
+</select><br><br>
+
+    <button type="submit">Add Product</button>
+</form>
+
+<!-- Category Form -->
+<form id="categoryForm">
+    <h2>Add New Category</h2>
+    <input type="text" id="newCategory" placeholder="New Category Name" required><br>
+    <button type="submit">Add Category</button>
+</form>
+
+<!-- Scripts -->
+<script>
+const productForm = document.getElementById('productForm');
+const categoryForm = document.getElementById('categoryForm');
+const categorySelect = document.getElementById('category');
+const mainImageInput = document.getElementById('mainImage');
+const galleryImagesInput = document.getElementById('galleryImages');
+const mainImagePreview = document.getElementById('mainImagePreview');
+const galleryPreview = document.getElementById('galleryPreview');
+
+// Load categories into select
+async function loadCategories() {
+    const response = await fetch('http://localhost:3000/categories');
+    const categories = await response.json();
+    
+    categorySelect.innerHTML = `<option value="">Select Category</option>`;
+    categories.forEach(cat => {
+        categorySelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+    });
+}
+
+// Submit new product
+productForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('price', document.getElementById('price').value);
+    formData.append('category', categorySelect.value);
+    formData.append('description', document.getElementById('description').value);
+    formData.append('buyLink', document.getElementById('buyLink').value || '#');
+    formData.append('seeMoreLink', document.getElementById('seeMoreLink').value || '#');
+    formData.append('specialCategory', document.getElementById('specialCategory').value);
+
+    const mainImage = mainImageInput.files[0];
+    const galleryImages = galleryImagesInput.files;
+
+    if (mainImage) {
+        formData.append('mainImage', mainImage);
+    }
+
+    for (let i = 0; i < galleryImages.length; i++) {
+        formData.append('galleryImages', galleryImages[i]);
+    }
+
+    const response = await fetch('http://localhost:3000/products', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (response.ok) {
+        alert('✅ Product added successfully!');
+        productForm.reset();
+        mainImagePreview.innerHTML = '';
+        galleryPreview.innerHTML = '';
+    } else {
+        alert('❌ Failed to add product.');
+    }
+});
+
+// Submit new category
+categoryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const categoryName = document.getElementById('newCategory').value;
+
+    const response = await fetch('http://localhost:3000/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: categoryName })
+    });
+
+    if (response.ok) {
+        alert('✅ Category added!');
+        loadCategories();
+        categoryForm.reset();
+    } else {
+        alert('❌ Failed to add category.');
+    }
+});
+
+// Preview main image
+mainImageInput.addEventListener('change', function() {
+    mainImagePreview.innerHTML = '';
+    const file = this.files[0];
+    if (file) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        mainImagePreview.appendChild(img);
+    }
+});
+
+// Preview gallery images
+galleryImagesInput.addEventListener('change', function() {
+    galleryPreview.innerHTML = '';
+    Array.from(this.files).forEach(file => {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        galleryPreview.appendChild(img);
+    });
+});
+
+// Initial load
+loadCategories();
+</script>
+
+</body>
+</html>

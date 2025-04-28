@@ -1,0 +1,464 @@
+/* Animation Control Variables */
+:root {
+    --logo1-opacity: 0.8;         
+    --logo1-size: 400px;           
+    --logo1-distance-x: 15px;      
+    --logo1-distance-y: 100px;     
+    --logo1-rotation: 30deg;       
+    --logo1-scale: 1.03;          
+    --logo1-speed: 8s;            
+    --logo1-delay: 0s;            
+    --logo1-top: -100px;          
+    --logo1-right: -100px;        
+    
+    --logo2-opacity: 1.0;         
+    --logo2-size: 200px;           
+    --logo2-distance-x: 15px;      
+    --logo2-distance-y: -10px;     
+    --logo2-rotation: 100deg;      
+    --logo2-scale: 1.03;          
+    --logo2-speed: 8s;            
+    --logo2-delay: 4s;            
+    --logo2-bottom: 50px;       
+    --logo2-left: -100px;         
+    
+    --logo3-opacity: 0.8;         
+    --logo3-size: 400px;           
+    --logo3-distance-x: 10px;      
+    --logo3-distance-y: -5px;      
+    --logo3-rotation: 3deg;        
+    --logo3-scale: 1.02;          
+    --logo3-speed: 10s;           
+    --logo3-delay: 2s;            
+    --logo3-top: -280px;           
+}
+
+/* Base Logo Styles */
+.hero-logo {
+    position: absolute;
+    pointer-events: none;
+    backface-visibility: hidden;
+    transform-origin: center center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+}
+
+/* Individual Logo Positioning and Properties */
+.hero-logo-1 {
+    width: var(--logo1-size);
+    height: auto;
+    top: var(--logo1-top);
+    right: var(--logo1-right);
+    opacity: var(--logo1-opacity);
+    animation: float1 var(--logo1-speed) ease-in-out var(--logo1-delay) infinite;
+}
+
+.hero-logo-2 {
+    width: var(--logo2-size);
+    height: auto;
+    bottom: var(--logo2-bottom);
+    left: var(--logo2-left);
+    opacity: var(--logo2-opacity);
+    animation: float2 var(--logo2-speed) ease-in-out var(--logo2-delay) infinite;
+}
+
+.hero-logo-3 {
+    width: var(--logo3-size);
+    height: auto;
+    position: absolute;
+    top: var(--logo3-top);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: var(--logo3-opacity);
+    animation: float3 var(--logo3-speed) ease-in-out var(--logo3-delay) infinite;
+     /* Places it behind the title */
+}
+
+/* Individual Float Animations */
+@keyframes float1 {
+    0%, 100% { 
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    50% { 
+        transform: 
+            translate(var(--logo1-distance-x), var(--logo1-distance-y))
+            rotate(var(--logo1-rotation))
+            scale(var(--logo1-scale));
+    }
+}
+
+@keyframes float2 {
+    0%, 100% { 
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    50% { 
+        transform: 
+            translate(var(--logo2-distance-x), var(--logo2-distance-y))
+            rotate(var(--logo2-rotation))
+            scale(var(--logo2-scale));
+    }
+}
+
+@keyframes float3 {
+    0%, 100% { 
+        transform: translateX(-50%) translate(0, 0) rotate(0deg) scale(1);
+    }
+    50% { 
+        transform: 
+            translateX(-50%)
+            translate(var(--logo3-distance-x), var(--logo3-distance-y))
+            rotate(var(--logo3-rotation))
+            scale(var(--logo3-scale));
+    }
+}
+
+/* Optional: Add smooth transition for opacity changes */
+.hero-logo {
+    transition: opacity 0.3s ease;
+}
+
+/* Existing CSS (for context) */
+
+.logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: var(--transition);
+
+    
+
+    direction: ltr;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo .plus {
+    color: var(--accent);
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.logo:hover .plus {
+    transform: rotate(90deg);
+}
+.logo_box {
+    flex: 0 0 auto; /* Logo stays fixed size */
+}
+
+/* Logo Image */
+.logo_img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+/* Responsive Rules */
+
+/* For mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .containt_main {
+        justify-content: center; /* center everything */
+    }
+    
+    .logo_img {
+        height: 40px; /* smaller logo on mobile */
+    }
+    
+    .logo_box {
+        margin-bottom: 10px; /* add spacing if needed */
+    }
+}
+
+/* For laptop (screens larger than 768px) */
+@media (min-width: 769px) {
+    .containt_main {
+        justify-content: flex-start; /* left-aligned on laptops */
+    }
+    
+    .logo_img {
+        height: 50px; /* normal size */
+    }
+}
+
+/* Enhanced Hero Section */
+/* .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.9), 
+        rgba(15, 23, 42, 0.95)), 
+        url('/api/placeholder/1920/1080') center/cover;
+    color: var(--yellow);
+    padding: 6rem 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+} */
+.hero {
+    /* min-height: 400px; /* instead of 100vh 
+    height: auto; */
+    max-height: 600px;
+min-height: 0.9px;
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.9), 
+        rgba(15, 23, 42, 0.95)), 
+        url('/api/placeholder/1920/1080') center/cover;
+    color: var(--yellow);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column; /* important if you have multiple items */
+    align-items: center;
+    justify-content: flex-start; /* start at the top, not center */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hero Decorative Shapes */
+.hero-shape-1,
+.hero-shape-2 {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.hero-shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+}
+
+.hero-content {
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInUp 1s ease-out 0.2s backwards;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    color: var(--text-light);
+    animation: fadeInUp 1s ease-out 0.4s backwards;
+}
+
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+
+/* Gradient Animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+#what {
+    position: fixed; /* 👈 changed from absolute to fixed */
+    top: 2%; /* Adjust vertical position */
+    right: 0; /* Stick to the right edge */
+    z-index: 1000;
+    background: linear-gradient(135deg, #05ee5e, #18ea29);
+    color: rgb(11, 34, 239);
+    border: none;
+    border-radius: 30px 0 0 30px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(62, 0, 255, 0.3), 0px 0px 15px rgba(62, 0, 255, 0.5);
+    animation: bounceUpDown 2s infinite ease-in-out;
+}
+
+#what:hover {
+    background: linear-gradient(135deg, #3e00ff, #a000f0);
+    transform: scale(1.05);
+}
+
+#what i {
+    font-size: 24px;
+}
+
+/* Animation: Bounce Up and Down */
+@keyframes bounceUpDown {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.box_main {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.box_main:hover {
+    transform: translateY(-5px);
+}
+
+.box_main img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.shirt_text {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.price_text {
+    font-size: 1rem;
+    color: #f26522;
+    margin-top: 10px;
+}
+
+.btn_main {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn_main a {
+    background: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn_main a:hover {
+    background: #1d4ed8;
+}
+.add-to-cart-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.add-to-cart-button:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+}
+
+.quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-controls button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.quantity-controls button:hover {
+    background-color: #1d4ed8;
+}
+.box_main {
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tshirt_img {
+    height: 160px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tshirt_img img {
+    max-height: 100%;
+    width: auto;
+}

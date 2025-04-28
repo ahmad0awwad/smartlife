@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - SmartLife Shop</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f5f5f5; }
+        .cart-container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        .cart-item { display: flex; align-items: center; margin-bottom: 20px; }
+        .cart-item img { width: 100px; height: 100px; object-fit: cover; margin-right: 20px; }
+        .cart-item h3 { margin: 0; font-size: 1.2rem; }
+        .cart-item p { margin: 5px 0; }
+        .quantity-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .quantity-controls button { background: #2563eb; color: white; border: none; padding: 5px 10px; font-size: 1.2rem; border-radius: 5px; cursor: pointer; }
+        .cart-total { margin-top: 30px; font-size: 1.5rem; font-weight: bold; }
+        .checkout-btn { margin-top: 20px; background: #2563eb; color: white; padding: 10px 20px; border: none; font-size: 1.2rem; border-radius: 8px; cursor: pointer; }
+        .checkout-btn:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+<div class="cart-container">
+    <h1>🛒 Your Cart</h1>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal">Total: $0</div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</div>
+
+<!-- Inline JavaScript -->
+<script>
+    async function loadCart() {
+        console.log('🔵 Loading cart...');
+
+        const cartContainer = document.getElementById('cartItems');
+        if (!cartContainer) {
+            console.warn('⚠️ No cart container found. Exiting loadCart.');
+            return;
+        }
+
+        const cart = JSON.parse(localStorage.getItem('cart')) || {};
+        console.log('🛒 Cart from localStorage:', cart);
+
+        const response = await fetch('http://localhost:3000/products');
+        const products = await response.json();
+        console.log('📦 Products from server:', products);
+
+        let total = 0;
+        cartContainer.innerHTML = '';
+
+        for (let cartId in cart) {
+            const product = products.find(p => p._id.toString() === cartId.toString());
+
+            if (product) {
+                const quantity = cart[cartId];
+                const subtotal = quantity * product.price;
+                total += subtotal;
+
+                cartContainer.innerHTML += `
+                    <div class="cart-item" id="item-${cartId}">
+                        <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}">
+                        <div>
+                            <h3>${product.name}</h3>
+                            <p>Price: $${product.price}</p>
+                            <div class="quantity-controls">
+                                <button onclick="updateCart('${cartId}', -1)">➖</button>
+                                <span id="qty-${cartId}">${quantity}</span>
+                                <button onclick="updateCart('${cartId}', 1)">➕</button>
+                            </div>
+                            <p id="subtotal-${cartId}">Subtotal: $${subtotal}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                console.warn(`⚠️ No product found for ID: ${cartId}`);
+            }
+        }
+
+        document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+    }
+
+    function updateCart(productId, change) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || {};
+        if (!cart[productId]) {
+            cart[productId] = 0;
+        }
+        cart[productId] += change;
+
+        if (cart[productId] <= 0) {
+            delete cart[productId];
+            document.getElementById('item-' + productId).remove();
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log('🛒 Cart updated:', cart);
+
+        loadCart(); // Reload cart after update
+    }
+
+    function checkout() {
+        alert('✅ Checkout completed! Thank you for your order.');
+        localStorage.removeItem('cart');
+        window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCart);
+</script>
+
+</body>
+</html>

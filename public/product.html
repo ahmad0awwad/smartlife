@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Product Detail | SmartLife</title>
+
+   <!-- Bootstrap + Swiper CSS -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+   <style>
+      body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:0; }
+      .container { padding-top: 30px; }
+      .main-img { width:100%; max-height:400px; object-fit:contain; border:1px solid #ddd; border-radius:10px; padding:10px; background:white; }
+      #galleryContainer img { width:80px; height:80px; object-fit:cover; border:1px solid #ccc; border-radius:5px; margin-right:10px; cursor:pointer; }
+      .product-details { background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); margin-bottom:30px; }
+      .cart-buttons button { margin:0 5px; border:none; border-radius:5px; background:#1e3a8a; color:white; padding:10px; }
+      .cart-buttons button:last-child { background:#f26522; padding:10px 20px; }
+      .swiper-slide { text-align:center; }
+      .swiper-slide img { width:100%; max-height:180px; object-fit:contain; background:white; padding:10px; border-radius:10px; }
+      .floating-cart { position:fixed; bottom:20px; right:20px; background:#f26522; color:white; padding:12px 18px; border-radius:50px; font-size:18px; font-weight:bold; box-shadow:0 4px 8px rgba(0,0,0,0.3); cursor:pointer; z-index:1000; }
+   </style>
+</head>
+
+<body>
+
+<!-- Product Details Section -->
+<div class="container">
+   <div class="row">
+      <div class="col-lg-6">
+         <img id="mainImage" class="main-img" src="" alt="Product Image">
+         <div id="galleryContainer" style="margin-top:20px; display:flex; overflow-x:auto;"></div>
+      </div>
+
+      <div class="col-lg-6">
+         <div class="product-details">
+            <h2 id="productName" style="font-weight:bold;"></h2>
+            <h3 id="productPrice" style="color:#f26522; margin-top:15px;"></h3>
+            <p id="productDesc" style="margin-top:20px;"></p>
+
+            <div class="cart-buttons d-flex align-items-center mt-4">
+               <button onclick="decreaseQuantity()">➖</button>
+               <span id="quantity" style="margin: 0 15px; font-size: 1.5rem;">1</span>
+               <button onclick="increaseQuantity()">➕</button>
+               <button onclick="addToCart(productId)">Add to Cart</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Similar Products Section -->
+<div class="container mt-5">
+   <h2 style="font-weight:bold; margin-bottom:20px;">Similar Products</h2>
+   <div class="swiper-container" id="similarProductsSwiper">
+      <div class="swiper-wrapper" id="similarProducts">
+         <!-- Similar products load here -->
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+   </div>
+</div>
+
+<!-- Floating Cart Icon -->
+<a href="cart.html" class="floating-cart">🛒 <span id="cart-count">0</span></a>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const productId = params.get('id');
+let quantity = 1;
+
+async function loadProduct() {
+    try {
+        const response = await fetch('http://localhost:3000/products');
+        const products = await response.json();
+
+        const product = products.find(p => p._id === productId);
+        if (!product) {
+            document.getElementById('productName').textContent = 'Product Not Found';
+            return;
+        }
+
+        document.getElementById('mainImage').src = `http://localhost:3000/${product.mainImageUrl}`;
+        document.getElementById('productName').textContent = product.name;
+        document.getElementById('productPrice').textContent = '$' + product.price;
+        document.getElementById('productDesc').textContent = product.description;
+
+        const galleryContainer = document.getElementById('galleryContainer');
+        galleryContainer.innerHTML = '';
+        for (let img of product.images) {
+            const thumb = document.createElement('img');
+            thumb.src = `http://localhost:3000/${img}`;
+            thumb.onclick = () => { document.getElementById('mainImage').src = thumb.src; };
+            galleryContainer.appendChild(thumb);
+        }
+
+        loadSimilarProducts(products, product.category, product._id);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function increaseQuantity() {
+    quantity++;
+    document.getElementById('quantity').textContent = quantity;
+}
+function decreaseQuantity() {
+    if (quantity > 1) {
+        quantity--;
+        document.getElementById('quantity').textContent = quantity;
+    }
+}
+
+function addToCart(productId) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    if (cart[productId]) {
+        cart[productId] += quantity;
+    } else {
+        cart[productId] = quantity;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    alert(`✅ Added ${quantity} item(s) to cart!`);
+}
+
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let total = 0;
+    for (let id in cart) {
+        total += cart[id];
+    }
+    document.getElementById('cart-count').textContent = total;
+}
+
+async function loadSimilarProducts(allProducts, category, excludeId) {
+    const similar = allProducts.filter(p => p.category === category && p._id !== excludeId);
+    const container = document.getElementById('similarProducts');
+    container.innerHTML = '';
+
+    for (let product of similar) {
+        container.innerHTML += `
+          <div class="swiper-slide" style="padding:10px;">
+   <a href="product.html?id=${product._id}" style="text-decoration:none; color:inherit;">
+      <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}" style="width:100%; max-height:180px; object-fit:contain;">
+      <h5 style="margin-top:10px; font-size:1rem;">${product.name}</h5>
+   </a>
+   <p style="color:#f26522; font-weight:bold; margin:5px 0;">$${product.price}</p>
+   <button onclick="initCart('${product._id}')" class="btn btn-primary btn-sm mt-2">Add to Cart</button>
+</div>
+
+        `;
+    }
+
+    new Swiper('#similarProductsSwiper', {
+        slidesPerView: 2,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            576: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            992: { slidesPerView: 4 },
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadProduct();
+    updateCartCount();
+});
+</script>
+
+</body>
+</html>
+
