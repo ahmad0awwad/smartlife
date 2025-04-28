@@ -116,6 +116,56 @@ app.post('/categories', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+// Get ONE product by ID
+app.get('/products/:id', async (req, res) => {
+  try {
+      const product = await Product.findById(req.params.id);
+      if (!product) return res.status(404).send('Product not found');
+      res.send(product);
+  } catch (error) {
+      res.status(500).send('Server error');
+  }
+});
+
+
+app.put('/products/:id', upload.fields([{ name: 'mainImage' }, { name: 'galleryImages' }]), async (req, res) => {
+    try {
+        const updates = {
+            name: req.body.name,
+            price: req.body.price,
+            description: req.body.description,
+            specialCategory: req.body.specialCategory
+        };
+
+        if (req.files['mainImage']) {
+            updates.mainImageUrl = req.files['mainImage'][0].path;
+        }
+
+        if (req.files['galleryImages']) {
+            updates.images = req.files['galleryImages'].map(file => file.path);
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updates, { new: true });
+        if (!updatedProduct) return res.status(404).send('Product not found');
+        res.send(updatedProduct);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+
+// Delete ONE product by ID
+app.delete('/products/:id', async (req, res) => {
+  try {
+      const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+      if (!deletedProduct) return res.status(404).send('Product not found');
+      res.send('Product deleted');
+  } catch (error) {
+      res.status(500).send('Server error');
+  }
+});
 
 // Get all categories
 app.get('/categories', async (req, res) => {
@@ -125,6 +175,30 @@ app.get('/categories', async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
+});
+// Update ONE category by ID
+app.put('/categories/:id', async (req, res) => {
+  try {
+      const updatedCategory = await Category.findByIdAndUpdate(
+          req.params.id,
+          { name: req.body.name },
+          { new: true }
+      );
+      if (!updatedCategory) return res.status(404).send('Category not found');
+      res.send(updatedCategory);
+  } catch (error) {
+      res.status(500).send('Server error');
+  }
+});
+// Delete ONE category by ID
+app.delete('/categories/:id', async (req, res) => {
+  try {
+      const deletedCategory = await Category.findByIdAndDelete(req.params.id);
+      if (!deletedCategory) return res.status(404).send('Category not found');
+      res.send('Category deleted');
+  } catch (error) {
+      res.status(500).send('Server error');
+  }
 });
 
 

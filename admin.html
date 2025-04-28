@@ -6,17 +6,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 50px;
+            margin: 20px;
             background-color: #f5f5f5;
         }
         h1, h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         form {
             max-width: 600px;
-            margin: 30px auto;
-            padding: 30px;
+            margin: 20px auto;
+            padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -50,9 +50,68 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+        section {
+            margin: 30px auto;
+            max-width: 900px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #eef2ff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        li button {
+            margin-left: 10px;
+            margin-top: 5px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+        #editModal {
+            display:none; 
+            position:fixed; 
+            top:0; left:0; 
+            width:100%; height:100%; 
+            background:rgba(0,0,0,0.5); 
+            justify-content:center; 
+            align-items:center;
+            z-index: 1000;
+        }
+        #editModal > div {
+            background:white; 
+            padding:20px; 
+            border-radius:10px; 
+            width:90%; 
+            max-width:500px; 
+            position:relative;
+            animation: popup 0.3s ease-out;
+        }
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            li button {
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
-
 <body>
 
 <h1>Admin Panel</h1>
@@ -60,11 +119,9 @@
 <!-- Product Form -->
 <form id="productForm" enctype="multipart/form-data">
     <h2>Add New Product</h2>
-
     <select id="category" required>
         <option value="">Loading Categories...</option>
     </select><br>
-
     <input type="text" id="name" placeholder="Product Name" required><br>
     <input type="number" id="price" placeholder="Price" required><br>
 
@@ -77,16 +134,14 @@
     <div id="galleryPreview" class="preview-container"></div>
 
     <textarea id="description" rows="5" placeholder="Product Description" required></textarea><br>
-
     <input type="text" id="buyLink" placeholder="Buy Now Link (optional)"><br>
     <input type="text" id="seeMoreLink" placeholder="See More Link (optional)"><br>
-<!-- Special Category -->
-<label>Special Category:</label><br>
-<select id="specialCategory">
-    <option value="none">None</option>
-    <option value="Best Sellers">Best Sellers</option>
-    <option value="New Arrivals">New Arrivals</option>
-</select><br><br>
+    <label>Special Category:</label><br>
+    <select id="specialCategory">
+        <option value="none">None</option>
+        <option value="Best Sellers">Best Sellers</option>
+        <option value="New Arrivals">New Arrivals</option>
+    </select><br><br>
 
     <button type="submit">Add Product</button>
 </form>
@@ -98,8 +153,68 @@
     <button type="submit">Add Category</button>
 </form>
 
+<!-- Categories Management -->
+<section id="categoriesList">
+    <h2>Manage Categories</h2>
+    <ul id="categories"></ul>
+</section>
+
+<!-- Products Management -->
+<section id="productsList">
+    <h2>Manage Products</h2>
+    <ul id="products"></ul>
+</section>
+
+<!-- Modal for Editing -->
+<div id="editModal">
+    <div>
+        <h2 id="modalTitle">Edit</h2>
+        <form id="editForm" enctype="multipart/form-data">
+            <input type="hidden" id="editId">
+        
+            <input type="text" id="editName" placeholder="Name" required><br>
+        
+            <div id="productFields" style="display:none;">
+                <input type="number" id="editPrice" placeholder="Price"><br>
+                <textarea id="editDescription" rows="3" placeholder="Description"></textarea><br>
+        
+                <label>Special Category:</label>
+                <select id="editSpecialCategory">
+                    <option value="none">None</option>
+                    <option value="Best Sellers">Best Sellers</option>
+                    <option value="New Arrivals">New Arrivals</option>
+                </select><br>
+        
+                <label>Change Main Image:</label>
+                <input type="file" id="editMainImage" accept="image/*"><br>
+        
+                <label>Change Gallery Images:</label>
+                <input type="file" id="editGalleryImages" accept="image/*" multiple><br>
+            </div>
+        
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
+        </form>
+        
+    </div>
+</div>
+<!-- Modal for Editing Category -->
+<div id="editCategoryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:white; padding:20px; border-radius:10px; width:90%; max-width:400px; position:relative; animation: popup 0.3s ease-out;">
+        <h2>Edit Category</h2>
+        <form id="editCategoryForm">
+            <input type="hidden" id="editCategoryId">
+            <input type="text" id="editCategoryName" placeholder="Category Name" required><br>
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeCategoryModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+
 <!-- Scripts -->
 <script>
+// Elements
 const productForm = document.getElementById('productForm');
 const categoryForm = document.getElementById('categoryForm');
 const categorySelect = document.getElementById('category');
@@ -108,21 +223,198 @@ const galleryImagesInput = document.getElementById('galleryImages');
 const mainImagePreview = document.getElementById('mainImagePreview');
 const galleryPreview = document.getElementById('galleryPreview');
 
-// Load categories into select
+// Open Product Modal
+function openModal(title, id, name, isProduct = false, price = '', description = '', specialCategory = 'none') {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('editId').value = id;
+    document.getElementById('editName').value = name;
+
+    if (isProduct) {
+        document.getElementById('productFields').style.display = 'block';
+        document.getElementById('editPrice').value = price;
+        document.getElementById('editDescription').value = description;
+        document.getElementById('editSpecialCategory').value = specialCategory;
+    } else {
+        document.getElementById('productFields').style.display = 'none';
+    }
+
+    document.getElementById('editModal').style.display = 'flex';
+}
+
+// Close Product Modal
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+// Open Category Modal
+function openCategoryModal(id, name) {
+    document.getElementById('editCategoryId').value = id;
+    document.getElementById('editCategoryName').value = name;
+    document.getElementById('editCategoryModal').style.display = 'flex';
+}
+
+// Close Category Modal
+function closeCategoryModal() {
+    document.getElementById('editCategoryModal').style.display = 'none';
+}
+
+// Toast Notifications
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+// Load Categories
 async function loadCategories() {
     const response = await fetch('http://localhost:3000/categories');
     const categories = await response.json();
-    
+
     categorySelect.innerHTML = `<option value="">Select Category</option>`;
+    const categoriesList = document.getElementById('categories');
+    categoriesList.innerHTML = '';
+
     categories.forEach(cat => {
-        categorySelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${cat.name}
+            <div>
+                <button onclick="openCategoryModal('${cat._id}', '${cat.name}')">Edit</button>
+                <button onclick="deleteCategory('${cat._id}')">Delete</button>
+            </div>`;
+        categoriesList.appendChild(li);
     });
 }
 
-// Submit new product
+// Load Products
+async function loadProducts() {
+    const response = await fetch('http://localhost:3000/products');
+    const products = await response.json();
+
+    const productsList = document.getElementById('products');
+    productsList.innerHTML = '';
+
+    products.forEach(prod => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${prod.name} ($${prod.price})
+            <div>
+                <button onclick="editProduct('${prod._id}')">Edit</button>
+                <button onclick="deleteProduct('${prod._id}')">Delete</button>
+            </div>`;
+        productsList.appendChild(li);
+    });
+}
+
+// Edit Product
+async function editProduct(id) {
+    const response = await fetch(`http://localhost:3000/products/${id}`);
+    if (!response.ok) {
+        showToast('❌ Product not found');
+        return;
+    }
+    const product = await response.json();
+    openModal('Edit Product', id, product.name, true, product.price, product.description, product.specialCategory);
+}
+
+// Delete Product
+function deleteProduct(id) {
+    if (confirm('Are you sure you want to delete this product?')) {
+        fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    showToast('✅ Product deleted!');
+                    loadProducts();
+                } else {
+                    showToast('❌ Failed to delete product.');
+                }
+            });
+    }
+}
+
+// Delete Category
+function deleteCategory(id) {
+    if (confirm('Are you sure you want to delete this category?')) {
+        fetch(`http://localhost:3000/categories/${id}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    showToast('✅ Category deleted!');
+                    loadCategories();
+                } else {
+                    showToast('❌ Failed to delete category.');
+                }
+            });
+    }
+}
+
+// Submit Product Edit Form
+document.getElementById('editForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('editId').value;
+    const name = document.getElementById('editName').value;
+    const price = document.getElementById('editPrice').value;
+    const description = document.getElementById('editDescription').value;
+    const specialCategory = document.getElementById('editSpecialCategory') ? document.getElementById('editSpecialCategory').value : 'none';
+    const mainImage = document.getElementById('editMainImage') ? document.getElementById('editMainImage').files[0] : null;
+    const galleryImages = document.getElementById('editGalleryImages') ? document.getElementById('editGalleryImages').files : [];
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('specialCategory', specialCategory);
+
+    if (mainImage) {
+        formData.append('mainImage', mainImage);
+    }
+    for (let img of galleryImages) {
+        formData.append('galleryImages', img);
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/products/${id}`, {
+            method: 'PUT',
+            body: formData
+        });
+        if (!response.ok) throw new Error('Failed to update product.');
+
+        showToast('✅ Product updated successfully!');
+        closeModal();
+        loadProducts();
+    } catch (error) {
+        showToast('❌ ' + error.message);
+    }
+});
+
+// Submit Category Edit Form
+document.getElementById('editCategoryForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const id = document.getElementById('editCategoryId').value;
+    const name = document.getElementById('editCategoryName').value;
+
+    try {
+        const response = await fetch(`http://localhost:3000/categories/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+        });
+
+        if (!response.ok) throw new Error('Failed to update category.');
+
+        showToast('✅ Category updated successfully!');
+        closeCategoryModal();
+        loadCategories();
+    } catch (error) {
+        showToast('❌ ' + error.message);
+    }
+});
+
+// Submit New Product
 productForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append('name', document.getElementById('name').value);
     formData.append('price', document.getElementById('price').value);
@@ -135,73 +427,76 @@ productForm.addEventListener('submit', async (e) => {
     const mainImage = mainImageInput.files[0];
     const galleryImages = galleryImagesInput.files;
 
-    if (mainImage) {
-        formData.append('mainImage', mainImage);
+    if (mainImage) formData.append('mainImage', mainImage);
+    for (let img of galleryImages) {
+        formData.append('galleryImages', img);
     }
 
-    for (let i = 0; i < galleryImages.length; i++) {
-        formData.append('galleryImages', galleryImages[i]);
-    }
+    try {
+        const response = await fetch('http://localhost:3000/products', {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) throw new Error('Failed to add product.');
 
-    const response = await fetch('http://localhost:3000/products', {
-        method: 'POST',
-        body: formData
-    });
-
-    if (response.ok) {
-        alert('✅ Product added successfully!');
+        showToast('✅ Product added!');
         productForm.reset();
         mainImagePreview.innerHTML = '';
         galleryPreview.innerHTML = '';
-    } else {
-        alert('❌ Failed to add product.');
+        loadProducts();
+    } catch (error) {
+        showToast('❌ ' + error.message);
     }
 });
 
-// Submit new category
+// Submit New Category
 categoryForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const categoryName = document.getElementById('newCategory').value;
 
-    const response = await fetch('http://localhost:3000/categories', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: categoryName })
-    });
+    try {
+        const response = await fetch('http://localhost:3000/categories', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: categoryName })
+        });
+        if (!response.ok) throw new Error('Failed to add category.');
 
-    if (response.ok) {
-        alert('✅ Category added!');
-        loadCategories();
+        showToast('✅ Category added!');
         categoryForm.reset();
-    } else {
-        alert('❌ Failed to add category.');
+        loadCategories();
+    } catch (error) {
+        showToast('❌ ' + error.message);
     }
 });
 
-// Preview main image
-mainImageInput.addEventListener('change', function() {
+// Preview Main Image
+mainImageInput.addEventListener('change', function () {
     mainImagePreview.innerHTML = '';
-    const file = this.files[0];
-    if (file) {
+    if (this.files[0]) {
         const img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
+        img.src = URL.createObjectURL(this.files[0]);
         mainImagePreview.appendChild(img);
     }
 });
 
-// Preview gallery images
-galleryImagesInput.addEventListener('change', function() {
+// Preview Gallery Images
+galleryImagesInput.addEventListener('change', function () {
     galleryPreview.innerHTML = '';
-    Array.from(this.files).forEach(file => {
+    for (let file of this.files) {
         const img = document.createElement('img');
         img.src = URL.createObjectURL(file);
         galleryPreview.appendChild(img);
-    });
+    }
 });
 
-// Initial load
+// Initial Load
 loadCategories();
+loadProducts();
+
 </script>
+<!-- Toast Notifications -->
+<div id="toast" style="position:fixed; top:20px; right:20px; background:#333; color:#fff; padding:10px 20px; border-radius:5px; display:none; z-index:2000; font-size:1rem;"></div>
 
 </body>
 </html>
