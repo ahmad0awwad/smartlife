@@ -1,9 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>Product Detail | SmartLife</title>
+    <head>
+        <!-- basic -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- mobile metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <!-- site metas -->
+
+        <meta name="keywords" content="">
+        <title>Product Detail | SmartLife</title>
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- bootstrap css -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <!-- style css -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  
+        <!-- Responsive-->
+        <link rel="stylesheet" href="css/responsive.css">
+        <!-- fevicon -->
+        <link rel="icon" href="images/fevicon.png" type="image/gif" />
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+        <!-- Tweaks for older IEs-->
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <!-- fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+        <!-- font awesome -->
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!--  -->
+        <!-- owl stylesheets -->
+        <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+        <link rel="stylesoeet" href="css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
 
    <!-- Bootstrap + Swiper CSS -->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -24,6 +65,128 @@
 </head>
 
 <body>
+       <!-- banner bg main start -->
+       <div class="banner_bg_main">
+        <!-- header top section start -->
+        <div class="container">
+           <div class="header_section_top">
+              <div class="row">
+                 <div class="col-sm-12">
+                    <div class="custom_menu">
+                       <ul>
+                          <li><a href="#">Best Sellers</a></li>
+                          <li><a href="#">Gift Ideas</a></li>
+                          <li><a href="#">New Releases</a></li>
+                          <li><a href="#">Today's Deals</a></li>
+                          <li><a href="#">Customer Service</a></li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <!-- header top section start -->
+        <!-- logo section start -->
+     
+        <!-- logo section end -->
+        <!-- header section start -->
+        <div class="header_section">
+           <div class="container">
+              <div class="containt_main">
+                
+                 
+                 <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="auth.html">Sign In/Sign Up </a>
+        
+                    <!-- Category Links will be inserted here -->
+                    <div id="categoryLinks"></div>
+        
+                   
+        
+                 </div>
+
+                
+                 <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
+                 <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                       <a class="dropdown-item" href="#">Action</a>
+                       <a class="dropdown-item" href="#">Another action</a>
+                       <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                 </div>
+                 <div class="main">
+                    <!-- Another variation with a button -->
+                    <div class="input-group" style="position: relative;">
+                       <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                       <div class="input-group-append">
+                           <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522">
+                               <i class="fa fa-search"></i>
+                           </button>
+                       </div>
+                   
+                       <!-- Search results will appear here -->
+                       <div id="searchResults" style="position:absolute; top:100%; left:0; right:0; background:white; z-index:1000; max-height:400px; overflow-y:auto; border:1px solid #ccc; border-top:none; display:none; padding:10px;">
+                       </div>
+                   </div>
+                   
+
+
+
+                 </div>
+                 
+                 <div class="header_box">
+                    <div class="lang_box ">
+                       <a href="index.html" title="logo">
+                          <img src="images/logolc.png" alt="Logo" class="logo_img">
+                       </a>
+                       <div class="dropdown-menu ">
+                          <a href="#" class="dropdown-item">
+                          <img src="images/flag-france.png" class="mr-2" alt="flag">
+                          French
+                          </a>
+                       </div>
+                    </div>
+                    <div class="login_menu">
+                       <ul>
+                           <li>
+                               <a href="cart.html" style="position:relative;">
+                                   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                   <span class="padding_10">Cart</span>
+                                   <span id="cart-count" style="
+                                   background: red; 
+                                   color: white; 
+                                   border-radius: 50%; 
+                                   padding: 1px 6px; 
+                                   font-size: 0.7rem; 
+                                   position: absolute; 
+                                   top: -5px; 
+                                   right: -10px;
+                                   line-height: 1;
+                               ">0</span>
+                                                               </a>
+                           </li>
+                           <li>
+                               <a href="auth.html">
+                                   <i class="fa fa-user" aria-hidden="true"></i>
+                                   <span class="padding_10">Sign In</span>
+                               </a>
+                           </li>
+                       </ul>
+                   </div>
+                   
+                 </div>
+              </div>
+           </div>
+        </div>
+        
+
 
 <!-- Product Details Section -->
 <div class="container">
@@ -50,26 +213,104 @@
    </div>
 </div>
 
-<!-- Similar Products Section -->
 <div class="container mt-5">
    <h2 style="font-weight:bold; margin-bottom:20px;">Similar Products</h2>
    <div class="swiper-container" id="similarProductsSwiper">
-      <div class="swiper-wrapper" id="similarProducts">
-         <!-- Similar products load here -->
-      </div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+      <!-- We insert the .swiper-wrapper dynamically -->
+      <!-- <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div> -->
       <div class="swiper-pagination"></div>
-   </div>
-</div>
+    </div>
+    
+ 
 
 <!-- Floating Cart Icon -->
-<a href="cart.html" class="floating-cart">🛒 <span id="cart-count">0</span></a>
+<a href="cart.html" class="floating-cart">🛒 <span id="floating-cart-count">0</span></a>
 
+<div class="loader_main">
+    <img src="images/logo.png" alt="Loading..." class="loader_logo">
+ </div>
+      
+    <!-- Footer section start -->
+   <!-- Footer section start -->
+   <footer class="footer_section" style="background-color: #1e3a8a; color: #ffffff; padding: 60px 0 30px 0;">
+      <div class="container text-center">
+   
+         <!-- Logo -->
+         <div class="footer_logo mb-4">
+            <a href="index.html">
+               <img src="images/logolc.png" alt="SmartLife Logo" style="height: 60px;">
+            </a>
+         </div>
+   
+         <!-- Subscribe box
+         <div class="subscribe_box mb-5 d-flex justify-content-center">
+            <input type="email" class="mail_bt" placeholder="Enter your email" name="email" style="padding: 12px 20px; border-radius: 30px 0 0 30px; border: none; max-width: 300px; width: 100%;">
+            <button type="submit" style="background-color: #f26522; color: #fff; border: none; padding: 12px 25px; border-radius: 0 30px 30px 0; font-weight: bold;">Subscribe</button>
+         </div> -->
+   
+         <!-- Footer links -->
+         <div class="footer_menu mb-4">
+            <ul class="list-unstyled d-flex flex-wrap justify-content-center">
+               <li class="mx-3 mb-2"><a href="#" style="color: #ffffff; text-decoration: none;">Best Sellers</a></li>
+               <li class="mx-3 mb-2"><a href="#" style="color: #ffffff; text-decoration: none;">Gift Ideas</a></li>
+               <li class="mx-3 mb-2"><a href="#" style="color: #ffffff; text-decoration: none;">New Releases</a></li>
+               <li class="mx-3 mb-2"><a href="#" style="color: #ffffff; text-decoration: none;">Today's Deals</a></li>
+               <li class="mx-3 mb-2"><a href="#" style="color: #ffffff; text-decoration: none;">Customer Service</a></li>
+            </ul>
+         </div>
+   
+       
+        <!-- Floating WhatsApp Button -->
+        <a href="https://wa.me/180012001200" target="_blank" id="what">
+   راسلنا   </a>
+      
+   
+         
+   
+         <!-- Social media icons  -->
+         <div class="social-icons mb-4">
+            <a href="#"><img src="images/face.svg" alt="Facebook" style="width: 30px; margin: 0 10px;"></a>
+            <a href="#"><img src="images/x.png" alt="Twitter" style="width: 30px; margin: 0 10px;"></a>
+            <a href="#"><img src="images/insta.png" alt="Instagram" style="width: 30px; margin: 0 10px;"></a>
+            <a href="#"><img src="images/y.png" alt="youtube" style="width: 30px; margin: 0 10px;"></a>
+            <a href="https://wa.me/96567734568" target="_blank">
+               <img src="images/wlogo.png" alt="WhatsApp" style="width: 30px; margin: 0 10px;">
+           </a>
+           
+   
+         </div>
+   
+      </div>
+   </footer>
+   <!-- Footer section end -->
+   
+   <!-- Copyright section start -->
+   <div class="copyright_section" style="background-color: #162c5b; color: #ffffff; padding: 15px 0;">
+      <div class="container text-center">
+         <p class="mb-0" style="font-size: 14px;">© 2025 SmartLife. All Rights Reserved. Powered by <a href="index.html" style="color: #f26522; font-weight: bold;">SmartLife</a>.</p>
+      </div>
+   </div>
+ 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <!-- Javascript files-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.0.0.min.js"></script>
+  <script src="js/plugin.js"></script>
+  <!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+  <!-- sidebar -->
+  <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/trackSource.js"></script>
+
 
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -141,50 +382,128 @@ function updateCartCount() {
 }
 
 async function loadSimilarProducts(allProducts, category, excludeId) {
-    const similar = allProducts.filter(p => p.category === category && p._id !== excludeId);
-    const container = document.getElementById('similarProducts');
-    container.innerHTML = '';
+  const similar = allProducts.filter(p => p.category === category && p._id !== excludeId);
 
-    for (let product of similar) {
-        container.innerHTML += `
-          <div class="swiper-slide" style="padding:10px;">
-   <a href="product.html?id=${product._id}" style="text-decoration:none; color:inherit;">
-      <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}" style="width:100%; max-height:180px; object-fit:contain;">
-      <h5 style="margin-top:10px; font-size:1rem;">${product.name}</h5>
-   </a>
-   <p style="color:#f26522; font-weight:bold; margin:5px 0;">$${product.price}</p>
-   <button onclick="initCart('${product._id}')" class="btn btn-primary btn-sm mt-2">Add to Cart</button>
-</div>
+  // 1. Destroy old Swiper
+  if (window.similarSwiper && window.similarSwiper.destroy) {
+    window.similarSwiper.destroy(true, true);
+    window.similarSwiper = null;
+  }
 
-        `;
+  // 2. REMOVE duplicate .swiper-wrapper from container
+  const swiperContainer = document.querySelector('#similarProductsSwiper');
+
+  // Remove all existing wrappers (just in case)
+  const existingWrappers = swiperContainer.querySelectorAll('.swiper-wrapper');
+  existingWrappers.forEach(wrapper => wrapper.remove());
+
+  // 3. Create a fresh wrapper
+  const newWrapper = document.createElement('div');
+  newWrapper.className = 'swiper-wrapper';
+  newWrapper.id = 'similarProducts';
+  swiperContainer.insertBefore(newWrapper, swiperContainer.querySelector('.swiper-button-next'));
+
+  // 4. Inject slides into the new wrapper
+  for (let product of similar) {
+    newWrapper.insertAdjacentHTML('beforeend', `
+      <div class="swiper-slide">
+        <div style="display: flex; flex-direction: column; align-items: center; width: 180px; padding: 8px; text-align: center;">
+          <a href="product.html?id=${product._id}" style="text-decoration: none; color: inherit; width: 100%;">
+            <div style="width: 160px; height: 160px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+              <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="min-height: 36px; margin-bottom: 2px;">
+              <span style="font-size: 14px; font-weight: 500; line-height: 1.2;">${product.name}</span>
+            </div>
+            <div style="font-size: 15px; color: #B12704; font-weight: bold; margin-bottom: 4px;">
+              $${product.price}
+            </div>
+          </a>
+          <button onclick="addToCart('${product._id}'); event.stopPropagation(); return false;" 
+            class="btn btn-primary btn-sm"
+            style="border-radius: 20px; width: 100%; font-size: 13px; padding: 4px 0;">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    `);
+  }
+
+  // 5. Wait for DOM update
+  await new Promise(requestAnimationFrame);
+
+  window.similarSwiper = new Swiper('#similarProductsSwiper', {
+  loop: false,
+  watchOverflow: true,
+  spaceBetween: 20,
+  speed: 500,
+  slidesPerView: 3,
+  slidesPerGroup: 3,
+
+  breakpoints: {
+    786: { // 👈 when screen is <= 786px
+      slidesPerView: 3,
+      slidesPerGroup: 3
     }
+  },
 
-    new Swiper('#similarProductsSwiper', {
-        slidesPerView: 2,
-        spaceBetween: 20,
-        loop: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        breakpoints: {
-            576: { slidesPerView: 2 },
-            768: { slidesPerView: 3 },
-            992: { slidesPerView: 4 },
-        }
-    });
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true
+  }
+});
+
+
+  console.log('Swiper initialized with loop:', window.similarSwiper.params.loop);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     loadProduct();
     updateCartCount();
 });
 </script>
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
 
+  // Delay attaching the event listener to avoid immediate close
+  setTimeout(() => {
+    document.addEventListener('click', handleOutsideClick);
+  }, 0);
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.removeEventListener('click', handleOutsideClick);
+}
+
+function handleOutsideClick(event) {
+  const nav = document.getElementById("mySidenav");
+  const toggleIcon = document.querySelector('.toggle_icon');
+  const dropdown = document.querySelector('.dropdown-menu');
+  const dropdownButton = document.getElementById('dropdownMenuButton');
+
+  // If click is inside nav or dropdown or toggle icon → do nothing
+  if (
+    nav.contains(event.target) ||
+    toggleIcon.contains(event.target) ||
+    (dropdown && dropdown.contains(event.target)) ||
+    (dropdownButton && dropdownButton.contains(event.target))
+  ) {
+    return;
+  }
+
+  // Else close the nav
+  closeNav();
+}
+
+   
+</script>
 </body>
 </html>
 

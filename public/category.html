@@ -84,11 +84,81 @@
          border-radius: 10px;
          margin-bottom: 30px;
       }
-      @media(max-width: 767px) {
-         .sidebar {
-            margin-bottom: 20px;
-         }
-      }
+      
+    
+      @media (max-width: 768px) {
+  .sidebar {
+    margin-bottom: 20px;
+  }
+  .sidebar h5, .sidebar h6 {
+    font-size: 1rem;
+  }
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  height: 100%;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.product-image-wrapper {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.product-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 36px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 15px;
+  color: #B12704;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 576px) {
+  .product-image-wrapper {
+    height: 100px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+}
+
+
    </style>
 </head>
 <body>
@@ -118,133 +188,145 @@
        <!-- logo section end -->
        <!-- header section start -->
        <div class="header_section">
-          <div class="container">
-             <div class="containt_main">
+         <div class="container">
+            <div class="containt_main">
+              
                
-                
-                <div id="mySidenav" class="sidenav">
-                   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-       
-                   <a href="index.html">Home</a>
-                   <a href="about.html">About Us</a>
-                   <a href="contact.html">Contact</a>
-                   <a href="signin.html">Sign In / My Account</a>
-       
-                   <!-- Category Links will be inserted here -->
-                   <div id="categoryLinks"></div>
-       
-                  
-       
-                </div>
+               <div id="mySidenav" class="sidenav">
+                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      
+                  <a href="index.html">Home</a>
+                  <a href="about.html">About Us</a>
+                  <a href="contact.html">Contact</a>
+                  <a href="auth.html">Sign In/Sign Up </a>
+      
+                  <!-- Category Links will be inserted here -->
+                  <div id="categoryLinks"></div>
+      
+                 
+      
+               </div>
 
-               
-                <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
-                <div class="dropdown">
-                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
-                   </button>
-                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                   </div>
-                </div>
-                <div class="main">
-                   <!-- Another variation with a button -->
-                   <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Search">
-                      <div class="input-group-append">
-                         <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
-                         <i class="fa fa-search"></i>
-                         </button>
-                      </div>
-                   </div>
-                </div>
-                
-                <div class="header_box">
-                   <div class="lang_box ">
-                      <a href="index.html" title="logo">
-                         <img src="images/logolc.png" alt="Logo" class="logo_img">
-                      </a>
-                      <div class="dropdown-menu ">
-                         <a href="#" class="dropdown-item">
-                         <img src="images/flag-france.png" class="mr-2" alt="flag">
-                         French
-                         </a>
-                      </div>
-                   </div>
-                   <div class="login_menu">
-                      <ul>
-                          <li>
-                              <a href="cart.html" style="position:relative;">
-                                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                  <span class="padding_10">Cart</span>
-                                  <span id="cart-count" style="
-                                  background: red; 
-                                  color: white; 
-                                  border-radius: 50%; 
-                                  padding: 1px 6px; 
-                                  font-size: 0.7rem; 
-                                  position: absolute; 
-                                  top: -5px; 
-                                  right: -10px;
-                                  line-height: 1;
-                              ">0</span>
-                                                              </a>
-                          </li>
-                          <li>
-                              <a href="signin.html">
-                                  <i class="fa fa-user" aria-hidden="true"></i>
-                                  <span class="padding_10">Sign In</span>
-                              </a>
-                          </li>
-                      </ul>
+              
+               <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
+               <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                     <a class="dropdown-item" href="#">Action</a>
+                     <a class="dropdown-item" href="#">Another action</a>
+                     <a class="dropdown-item" href="#">Something else here</a>
                   </div>
-                  
-                </div>
-             </div>
-          </div>
-       </div>
+               </div>
+               <div class="main">
+                  <!-- Another variation with a button -->
+                  <div class="input-group" style="position: relative;">
+                     <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                     <div class="input-group-append">
+                         <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522">
+                             <i class="fa fa-search"></i>
+                         </button>
+                     </div>
+                 
+                     <!-- Search results will appear here -->
+                     <div id="searchResults" style="position:absolute; top:100%; left:0; right:0; background:white; z-index:1000; max-height:400px; overflow-y:auto; border:1px solid #ccc; border-top:none; display:none; padding:10px;">
+                     </div>
+                 </div>
+                 
 
-<div class="container mt-5 mb-5">
-   <div class="row">
 
-      <!-- Sidebar Filters -->
-      <div class="col-lg-3 col-md-4">
-         <div class="sidebar">
-            <h4>Sort By</h4>
-            <select id="sortOptions" class="form-control mb-3">
-               <option value="default">Default</option>
-               <option value="priceLowHigh">Price: Low to High</option>
-               <option value="priceHighLow">Price: High to Low</option>
-               <option value="nameAZ">Name: A to Z</option>
-               <option value="nameZA">Name: Z to A</option>
-            </select>
-            <!-- Price Filter -->
-      <h4>Filter by Price</h4>
-      <div class="d-flex mb-3">
-         <input type="number" id="minPrice" class="form-control mr-2" placeholder="Min" style="width: 45%;">
-         <input type="number" id="maxPrice" class="form-control" placeholder="Max" style="width: 45%;">
-      </div>
-      <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
 
+               </div>
+               
+               <div class="header_box">
+                  <div class="lang_box ">
+                     <a href="index.html" title="logo">
+                        <img src="images/logolc.png" alt="Logo" class="logo_img">
+                     </a>
+                     <div class="dropdown-menu ">
+                        <a href="#" class="dropdown-item">
+                        <img src="images/flag-france.png" class="mr-2" alt="flag">
+                        French
+                        </a>
+                     </div>
+                  </div>
+                  <div class="login_menu">
+                     <ul>
+                         <li>
+                             <a href="cart.html" style="position:relative;">
+                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                 <span class="padding_10">Cart</span>
+                                 <span id="cart-count" style="
+                                 background: red; 
+                                 color: white; 
+                                 border-radius: 50%; 
+                                 padding: 1px 6px; 
+                                 font-size: 0.7rem; 
+                                 position: absolute; 
+                                 top: -5px; 
+                                 right: -10px;
+                                 line-height: 1;
+                             ">0</span>
+                                                             </a>
+                         </li>
+                         <li>
+                             <a href="auth.html">
+                                 <i class="fa fa-user" aria-hidden="true"></i>
+                                 <span class="padding_10">Sign In</span>
+                             </a>
+                         </li>
+                     </ul>
+                 </div>
+                 
+               </div>
+            </div>
          </div>
       </div>
+      
 
-      <!-- Products Area -->
-      <div class="col-lg-9 col-md-8">
-         <div class="row" id="productsContainer">
-            <!-- Products will be injected here -->
-         </div>
-
-         <!-- Pagination -->
-         <nav>
-            <ul class="pagination" id="pagination">
-               <!-- Pagination buttons -->
-            </ul>
-         </nav>
-      </div>
+      <div class="container mt-4">
+         <div class="row">
+       
+           <!-- 🔹 Left Sidebar (Filters) -->
+<div class="col-lg-3 col-md-4 col-12 mb-4">
+   <div class="card p-3">
+     <h5>Filter</h5>
+ 
+     <label for="sortOptions">Sort by:</label>
+     <select id="sortOptions" class="form-control mb-3">
+       <option value="">Default</option>
+       <option value="priceLowHigh">Price: Low to High</option>
+       <option value="priceHighLow">Price: High to Low</option>
+       <option value="nameAZ">Name: A to Z</option>
+       <option value="nameZA">Name: Z to A</option>
+     </select>
+ 
+     <h6>Price Range</h6>
+     <div class="d-flex mb-3">
+       <input type="number" id="minPrice" class="form-control mr-2" placeholder="Min" style="width: 45%;">
+       <input type="number" id="maxPrice" class="form-control" placeholder="Max" style="width: 45%;">
+     </div>
    </div>
-</div>
+ </div>
+ 
+       
+           <!-- 🟦 Right Main Column (Products + Pagination) -->
+           <div class="col-lg-9 col-md-8">
+             <div class="row" id="productsContainer">
+               <!-- Products will be injected here -->
+             </div>
+       
+             <!-- Pagination -->
+             <nav>
+               <ul class="pagination justify-content-center mt-3" id="pagination">
+                 <!-- Pagination buttons -->
+               </ul>
+             </nav>
+           </div>
+       
+         </div>
+       </div>
+       
 
 <!-- fashion section start -->
 <!-- <div class="fashion_section">
@@ -288,14 +370,7 @@
           </ul>
        </div>
  
-       <!-- Help line -->
-       <!-- <div class="contact_button mb-5 text-center">
-          <a href="https://wa.me/180012001200" target="_blank" class="btn-whatsapp">
-             <img src="images/whatsapp-icon.svg" alt="WhatsApp" style="width: 24px; height: 24px;">
-             راسلنا
-          </a>
-       </div>
-        -->
+       
       <!-- Floating WhatsApp Button -->
       <a href="https://wa.me/180012001200" target="_blank" id="what">
  راسلنا   </a>
@@ -355,53 +430,124 @@ async function fetchProducts() {
       console.error('Error fetching products:', err);
    }
 }
+// Live filtering on sort and price
+document.getElementById('sortOptions')?.addEventListener('change', applyFilters);
+document.getElementById('minPrice')?.addEventListener('input', debounce(applyFilters, 300));
+document.getElementById('maxPrice')?.addEventListener('input', debounce(applyFilters, 300));
 
-function renderProducts() {
-   const container = document.getElementById('productsContainer');
-   container.innerHTML = '';
-
-   let sortedProducts = sortProducts(products);
-
-   const start = (currentPage - 1) * productsPerPage;
-   const end = start + productsPerPage;
-   const currentProducts = sortedProducts.slice(start, end);
-
-   for (let product of currentProducts) {
-      container.innerHTML += `
-         <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="product-card">
-               <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}">
-               <h5>${product.name}</h5>
-               <p>$${product.price}</p>
-<a href="product.html?id=${product._id}" style="text-decoration:none; color:inherit;">
-  <img src="..." alt="${product.name}">
-  <h5>${product.name}</h5>
-</a>
-<button onclick="initCart('${product._id}')" class="btn btn-primary btn-sm mt-2">Add to Cart</button>
-            </div>
-         </div>
-      `;
-   }
+// Debounce to reduce lag
+function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
 }
 
-function renderPagination() {
-   const pages = Math.ceil(products.length / productsPerPage);
-   const pagination = document.getElementById('pagination');
-   pagination.innerHTML = '';
+function applyFilters() {
+  const min = parseFloat(document.getElementById('minPrice').value);
+  const max = parseFloat(document.getElementById('maxPrice').value);
+  const sort = document.getElementById('sortOptions').value;
 
-   for (let i = 1; i <= pages; i++) {
-      pagination.innerHTML += `
-         <li class="page-item ${i === currentPage ? 'active' : ''}">
-            <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
-         </li>
-      `;
-   }
+  let filtered = [...products];
+
+  filtered = filtered.filter(p => {
+    const price = Number(p.price);
+    if (!isNaN(min) && price < min) return false;
+    if (!isNaN(max) && price > max) return false;
+    return true;
+  });
+
+  console.log('🎯 Filtered products:', filtered.map(p => ({ name: p.name, price: p.price })));
+
+  filteredProducts = sortProducts(filtered, sort);
+  currentPage = 1;
+  renderFilteredProducts();
+  renderPagination(filteredProducts);
+}
+
+
+function renderFilteredProducts() {
+  const container = document.getElementById('productsContainer');
+  container.innerHTML = '';
+
+  const start = (currentPage - 1) * productsPerPage;
+  const end = start + productsPerPage;
+  const current = filteredProducts.slice(start, end);
+
+  for (let product of current) {
+    container.innerHTML += `
+<div class="col-4 col-sm-3 col-md-3 mb-4">
+        <div id="product-${product._id}" style="...">
+          <!-- rest of your card (same as renderProducts) -->
+        </div>
+      </div>
+    `;
+  }
+
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  Object.keys(cart).forEach(productId => updateProductCard(productId));
+}
+
+function renderProducts() {
+  const container = document.getElementById('productsContainer');
+  container.innerHTML = '';
+
+  const sortedProducts = sortProducts(products);
+  const start = (currentPage - 1) * productsPerPage;
+  const end = start + productsPerPage;
+  const currentProducts = sortedProducts.slice(start, end);
+
+  for (let product of currentProducts) {
+    container.innerHTML += `<div class="col-4 col-sm-3 col-md-3 mb-4">
+  <div id="product-${product._id}" class="product-card">
+    <a href="product.html?id=${product._id}" class="product-link">
+      <div class="product-image-wrapper">
+        <img src="http://localhost:3000/${product.mainImageUrl}" alt="${product.name}" class="product-image">
+      </div>
+      <div class="product-info">
+        <span class="product-name">${product.name}</span>
+        <div class="product-price">$${product.price}</div>
+      </div>
+    </a>
+    <div class="btn_main">
+      <button class="btn btn-primary btn-sm w-100" onclick="addToCart('${product._id}')">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+ `;
+  }
+
+  // Refresh any quantity buttons
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  Object.keys(cart).forEach(productId => updateProductCard(productId));
+}
+
+function renderPagination(list = products) {
+  const pages = Math.ceil(list.length / productsPerPage);
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+
+  for (let i = 1; i <= pages; i++) {
+    pagination.innerHTML += `
+      <li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+      </li>
+    `;
+  }
 }
 
 function goToPage(page) {
-   currentPage = page;
-   renderProducts();
-   renderPagination();
+  currentPage = page;
+  if (typeof filteredProducts !== 'undefined') {
+    renderFilteredProducts();
+    renderPagination(filteredProducts);
+  } else {
+    renderProducts();
+    renderPagination();
+  }
 }
 
 function sortProducts(productsArray) {
@@ -427,6 +573,17 @@ document.getElementById('sortOptions').addEventListener('change', () => {
 
 fetchProducts();
 </script>
+
+<script>
+   function openNav() {
+     document.getElementById("mySidenav").style.width = "250px";
+   }
+   
+   function closeNav() {
+     document.getElementById("mySidenav").style.width = "0";
+   }
+</script>
+<script src="js/trackSource.js"></script>
 
 </body>
 </html>

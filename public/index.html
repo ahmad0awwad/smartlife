@@ -94,7 +94,7 @@
                      <a href="index.html">Home</a>
                      <a href="about.html">About Us</a>
                      <a href="contact.html">Contact</a>
-                     <a href="signin.html">Sign In / My Account</a>
+                     <a href="auth.html">Sign In/Sign Up </a>
          
                      <!-- Category Links will be inserted here -->
                      <div id="categoryLinks"></div>
@@ -116,14 +116,22 @@
                   </div>
                   <div class="main">
                      <!-- Another variation with a button -->
-                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                     <div class="input-group" style="position: relative;">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                         <div class="input-group-append">
-                           <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
-                           <i class="fa fa-search"></i>
-                           </button>
+                            <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
-                     </div>
+                    
+                        <!-- Search results will appear here -->
+                        <div id="searchResults" style="position:absolute; top:100%; left:0; right:0; background:white; z-index:1000; max-height:400px; overflow-y:auto; border:1px solid #ccc; border-top:none; display:none; padding:10px;">
+                        </div>
+                    </div>
+                    
+
+
+
                   </div>
                   
                   <div class="header_box">
@@ -158,7 +166,7 @@
                                                                 </a>
                             </li>
                             <li>
-                                <a href="signin.html">
+                                <a href="auth.html">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_10">Sign In</span>
                                 </a>
@@ -276,14 +284,7 @@
          </ul>
       </div>
 
-      <!-- Help line -->
-      <!-- <div class="contact_button mb-5 text-center">
-         <a href="https://wa.me/180012001200" target="_blank" class="btn-whatsapp">
-            <img src="images/whatsapp-icon.svg" alt="WhatsApp" style="width: 24px; height: 24px;">
-            راسلنا
-         </a>
-      </div>
-       -->
+    
      <!-- Floating WhatsApp Button -->
      <a href="https://wa.me/180012001200" target="_blank" id="what">
 راسلنا   </a>
@@ -323,7 +324,7 @@
       <script src="js/jquery-3.0.0.min.js"></script>
       <script src="js/plugin.js"></script>
       <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script> -->
 
       <!-- sidebar -->
       <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -339,5 +340,7 @@
            document.getElementById("mySidenav").style.width = "0";
          }
       </script>
+        <script src="js/trackSource.js"></script>
+
    </body>
 </html>

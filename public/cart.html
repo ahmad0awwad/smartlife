@@ -1,8 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Your Cart - SmartLife Shop</title>
+     <!-- basic -->
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- mobile metas -->
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+     <!-- site metas -->
+     <meta name="keywords" content="">
+     <meta name="description" content="">
+     <meta name="author" content="">
+     <!-- bootstrap css -->
+     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+     <!-- style css -->
+     <link rel="stylesheet" type="text/css" href="css/style.css">
+     <link rel="stylesheet" type="text/css" href="style.css">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+     <!-- Responsive-->
+     <link rel="stylesheet" href="css/responsive.css">
+     <!-- fevicon -->
+     <link rel="icon" href="images/fevicon.png" type="image/gif" />
+     <!-- Scrollbar Custom CSS -->
+     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+     <!-- Tweaks for older IEs-->
+     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+     <!-- fonts -->
+     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+     <!-- font awesome -->
+     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+     <!--  -->
+     <!-- owl stylesheets -->
+     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+     <link rel="stylesheet" href="css/owl.carousel.min.css">
+     <link rel="stylesoeet" href="css/owl.theme.default.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+     <!-- Dynamically Add Open Graph Meta Tags for 'halawkakaw' -->
+  <meta property="og:title" content="HalawKakaw - Sweet Treats & More">
+  <meta property="og:description" content="Imported sweets, snacks, and more with delivery across Kuwait. Discover your favorites at HalawKakaw!">
+  <meta property="og:image" content="/public/images/link.jpg">
+  <meta property="og:url" content="https://reachpluss.com/<%= client.url %>">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HalawKakaw - Sweet Treats & More">
+  <meta name="twitter:description" content="Imported sweets, snacks, and more with delivery across Kuwait. Discover your favorites at HalawKakaw!">
+  <meta name="twitter:image" content="/public/images/link.jpg">
+  <link rel="stylesheet" href="/public/stylesheets/halawa.css">    <title>Your Cart - SmartLife Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
+
     <style>
         body { font-family: Arial, sans-serif; padding: 30px; background: #f5f5f5; }
         .cart-container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
@@ -15,18 +70,259 @@
         .cart-total { margin-top: 30px; font-size: 1.5rem; font-weight: bold; }
         .checkout-btn { margin-top: 20px; background: #2563eb; color: white; padding: 10px 20px; border: none; font-size: 1.2rem; border-radius: 8px; cursor: pointer; }
         .checkout-btn:hover { background: #1d4ed8; }
+        .cart-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid #ddd;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.cart-item h3 {
+  margin: 0 0 5px;
+  font-size: 1.1rem;
+  color: #111;
+}
+
+.cart-item p {
+  margin: 4px 0;
+  color: #444;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.quantity-controls button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.quantity-controls button:hover {
+  transform: scale(1.1);
+  background: #1e40af;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.smartbag-container {
+  max-width: 960px;
+  margin: auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.smartbag-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #111827;
+  font-weight: 700;
+  text-align: center;
+  border-bottom:0.5px outset ;
+}
+
+.smartbag-items {
+  margin-bottom: 30px;
+}
+
+.smartbag-total {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.smartbag-checkout-btn {
+  background: #16a34a;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.smartbag-checkout-btn:hover {
+  background: #15803d;
+  transform: scale(1.04);
+}
+
+.smartbag-summary {
+  text-align: center;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 20px;
+}
+
     </style>
 </head>
 <body>
+           <!-- header section start -->
+           <div class="banner_bg_main">
+        
+            <!-- logo section end -->
+            <!-- header section start -->
+            <div class="header_section">
+               <div class="container">
+                  <div class="containt_main">
+                    
+                     
+                     <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            
+                        <a href="index.html">Home</a>
+                        <a href="about.html">About Us</a>
+                        <a href="contact.html">Contact</a>
+                        <a href="auth.html">Sign In/Sign Up </a>
+            
+                        <!-- Category Links will be inserted here -->
+                        <div id="categoryLinks"></div>
+            
+                       
+            
+                     </div>
+   
+                    
+                     <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
+                     <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                           <a class="dropdown-item" href="#">Action</a>
+                           <a class="dropdown-item" href="#">Another action</a>
+                           <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                     </div>
+                     <div class="main">
+                        <!-- Another variation with a button -->
+                        <div class="input-group" style="position: relative;">
+                           <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                           <div class="input-group-append">
+                               <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522">
+                                   <i class="fa fa-search"></i>
+                               </button>
+                           </div>
+                       
+                           <!-- Search results will appear here -->
+                           <div id="searchResults" style="position:absolute; top:100%; left:0; right:0; background:white; z-index:1000; max-height:400px; overflow-y:auto; border:1px solid #ccc; border-top:none; display:none; padding:10px;">
+                           </div>
+                       </div>
+                       
+   
+   
+   
+                     </div>
+                     
+                     <div class="header_box">
+                        <div class="lang_box ">
+                           <a href="index.html" title="logo">
+                              <img src="images/logolc.png" alt="Logo" class="logo_img">
+                           </a>
+                           <div class="dropdown-menu ">
+                              <a href="#" class="dropdown-item">
+                              <img src="images/flag-france.png" class="mr-2" alt="flag">
+                              French
+                              </a>
+                           </div>
+                        </div>
+                        <div class="login_menu">
+                           <ul>
+                               <li>
+                                   <a href="cart.html" style="position:relative;">
+                                       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                       <span class="padding_10">Cart</span>
+                                       <span id="cart-count" style="
+                                       background: red; 
+                                       color: white; 
+                                       border-radius: 50%; 
+                                       padding: 1px 6px; 
+                                       font-size: 0.7rem; 
+                                       position: absolute; 
+                                       top: -5px; 
+                                       right: -10px;
+                                       line-height: 1;
+                                   ">0</span>
+                                                                   </a>
+                               </li>
+                               <li>
+                                   <a href="auth.html">
+                                       <i class="fa fa-user" aria-hidden="true"></i>
+                                       <span class="padding_10">Sign In</span>
+                                   </a>
+                               </li>
+                           </ul>
+                       </div>
+                       
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+   <!-- Insert Hero Animation Section here -->
+  
+   </section>
+    <div class="smartbag-container">
+        <h1>Cart</h1>
+        <div id="cartItems" class="smartbag-items"></div>
+        <div class="smartbag-summary">
+          <div class="smartbag-total" id="cartTotal">Total: $0</div>
+          <button class="smartbag-checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+      </div>
+      
 
-<div class="cart-container">
-    <h1>🛒 Your Cart</h1>
-    <div id="cartItems"></div>
-    <div class="cart-total" id="cartTotal">Total: $0</div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
-</div>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <!-- Javascript files-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.0.0.min.js"></script>
+  <script src="js/plugin.js"></script>
+  <!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-<!-- Inline JavaScript -->
+  <!-- sidebar -->
+  <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/trackSource.js"></script>
+
 <script>
     async function loadCart() {
         console.log('🔵 Loading cart...');
@@ -38,7 +334,8 @@
         }
 
         const cart = JSON.parse(localStorage.getItem('cart')) || {};
-        console.log('🛒 Cart from localStorage:', cart);
+console.log('🛒 Cart object:', cart);
+console.log('🧩 Keys in cart:', Object.keys(cart));
 
         const response = await fetch('http://localhost:3000/products');
         const products = await response.json();
@@ -76,6 +373,8 @@
         }
 
         document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+        updateCartCount();
+
     }
 
     function updateCart(productId, change) {
@@ -94,16 +393,52 @@
         console.log('🛒 Cart updated:', cart);
 
         loadCart(); // Reload cart after update
+        updateCartCount();
+
     }
 
     function checkout() {
-        alert('✅ Checkout completed! Thank you for your order.');
-        localStorage.removeItem('cart');
-        window.location.href = 'index.html';
+        window.location.href = 'c.html';
     }
 
     document.addEventListener('DOMContentLoaded', loadCart);
 </script>
-
+<script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+    
+      // Delay attaching the event listener to avoid immediate close
+      setTimeout(() => {
+        document.addEventListener('click', handleOutsideClick);
+      }, 0);
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.removeEventListener('click', handleOutsideClick);
+    }
+    
+    function handleOutsideClick(event) {
+      const nav = document.getElementById("mySidenav");
+      const toggleIcon = document.querySelector('.toggle_icon');
+      const dropdown = document.querySelector('.dropdown-menu');
+      const dropdownButton = document.getElementById('dropdownMenuButton');
+    
+      // If click is inside nav or dropdown or toggle icon → do nothing
+      if (
+        nav.contains(event.target) ||
+        toggleIcon.contains(event.target) ||
+        (dropdown && dropdown.contains(event.target)) ||
+        (dropdownButton && dropdownButton.contains(event.target))
+      ) {
+        return;
+      }
+    
+      // Else close the nav
+      closeNav();
+    }
+    
+       
+    </script>
 </body>
 </html>

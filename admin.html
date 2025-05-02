@@ -110,391 +110,893 @@
                 margin-top: 10px;
             }
         }
-    </style>
+        .admin-nav {
+  background: #1f2937;
+  color: white;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  display: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nav-links li {
+  background: #374151;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-links li:hover {
+  background: #4b5563;
+}
+
+.admin-page {
+  display: none;
+}
+
+#home {
+  display: block;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.metric-card {
+  background: #e0f2fe;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1 1 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-size: 1.1rem;
+}
+
+/* Responsive nav for mobile */
+@media (max-width: 600px) {
+  .nav-links {
+    flex-direction: column;
+    display: none;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+  
+.order-list {
+  list-style: none;
+  padding: 0;
+}
+
+.order-list li {
+  background: #f9fafb;
+  padding: 12px 18px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+}
+#editCategoryModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#editCategoryModal form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.status-badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+.status-pending { background: #facc15; }
+.status-making { background: #38bdf8; }
+.status-shipped { background: #6366f1; }
+.status-delivered { background: #16a34a; }
+.status-cancelled { background: #dc2626; }
+
+/* .details-toggle {
+  cursor: pointer;
+  color: #2563eb;
+  text-decoration: underline;
+  margin-top: 5px;
+  display: inline-block;
+} */
+
+/* .order-details {
+  display: none;
+  padding: 8px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-top: 10px;
+} */
+.order-details {
+  background: #f8f9fa;
+  padding: 10px 12px;
+  margin-top: 10px;
+  border-left: 4px solid #2563eb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.order-details ul {
+  margin: 8px 0;
+  padding-left: 18px;
+}
+
+.details-toggle {
+  cursor: pointer;
+  color: #2563eb;
+  text-decoration: underline;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+
+.admin-export-btn {
+  margin-bottom: 10px;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.admin-export-btn:hover {
+  background: #059669;
+}
+
+.details-toggle {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-top: 8px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  user-select: none;
+}
+
+.details-toggle:hover {
+  background-color: #1e40af;
+  transform: scale(1.03);
+}
+
+.details-toggle:active {
+  transform: scale(0.97);
+  background-color: #1c3faa;
+}
+
+.details-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.4);
+}
+
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
-
+    <nav class="admin-nav">
+        <div class="nav-header">
+          <span class="nav-title">SmartLife Admin</span>
+          <button class="hamburger" onclick="toggleMenu()">☰</button>
+        </div>
+        <ul class="nav-links" id="navMenu">
+          <li onclick="showPage('home')">🏠 Home</li>
+          <li onclick="showPage('categoriesPage')">📂 Categories</li>
+          <li onclick="showPage('productsList')">📦 Products</li>
+          <li onclick="showPage('orders')">🧾 Orders</li>
+        </ul>
+      </nav>
+      
 <h1>Admin Panel</h1>
+<section id="home" class="admin-page">
+    <h2>📊 Dashboard Overview</h2>
+    <div class="dashboard-grid">
+      <div class="metric-card" id="siteVisits">👥 Site Visits: ...</div>
+      <div class="metric-card" id="totalSales">💰 Total Sales: ...</div>
+      <div class="metric-card" id="topProduct">🔥 Top Product: ...</div>
+    </div>
+  
+    <canvas id="dashboardChart" style="margin-top: 40px;"></canvas>
+    <canvas id="sourceChart" style="margin-top: 40px; max-width: 600px;"></canvas>
 
-<!-- Product Form -->
-<form id="productForm" enctype="multipart/form-data">
-    <h2>Add New Product</h2>
-    <select id="category" required>
-        <option value="">Loading Categories...</option>
-    </select><br>
-    <input type="text" id="name" placeholder="Product Name" required><br>
-    <input type="number" id="price" placeholder="Price" required><br>
+    <h3 style="margin-top: 40px;">🧾 Recent Orders</h3>
+    <ul id="recentOrders" class="order-list"></ul>
+  </section>
+  
 
-    <label>Main Image:</label><br>
-    <input type="file" id="mainImage" accept="image/*" required><br>
-    <div id="mainImagePreview" class="preview-container"></div>
+  <div id="categoriesPage" class="admin-page">
+    <form id="categoryForm">
+      <input type="text" id="newCategory" placeholder="New category name" required />
+      <button type="submit">Add Category</button>
+    </form>
+  
+    <section id="categoriesList">
+      <h2>Manage Categories</h2>
+      <ul id="categories"></ul>
+    </section>
+  </div>
+  <div id="editCategoryModal" style="display:none;">
+    <form id="editCategoryForm">
+      <input type="hidden" id="editCategoryId" />
+      <input type="text" id="editCategoryName" placeholder="Edit category name" required />
+      <button type="submit">Save</button>
+      <button type="button" onclick="closeCategoryModal()">Cancel</button>
+    </form>
+  </div>
+  
+  
 
-    <label>Gallery Images:</label><br>
-    <input type="file" id="galleryImages" accept="image/*" multiple><br>
-    <div id="galleryPreview" class="preview-container"></div>
-
-    <textarea id="description" rows="5" placeholder="Product Description" required></textarea><br>
-    <input type="text" id="buyLink" placeholder="Buy Now Link (optional)"><br>
-    <input type="text" id="seeMoreLink" placeholder="See More Link (optional)"><br>
-    <label>Special Category:</label><br>
-    <select id="specialCategory">
-        <option value="none">None</option>
-        <option value="Best Sellers">Best Sellers</option>
-        <option value="New Arrivals">New Arrivals</option>
-    </select><br><br>
-
-    <button type="submit">Add Product</button>
-</form>
-
-<!-- Category Form -->
-<form id="categoryForm">
-    <h2>Add New Category</h2>
-    <input type="text" id="newCategory" placeholder="New Category Name" required><br>
-    <button type="submit">Add Category</button>
-</form>
-
-<!-- Categories Management -->
-<section id="categoriesList">
-    <h2>Manage Categories</h2>
-    <ul id="categories"></ul>
-</section>
 
 <!-- Products Management -->
-<section id="productsList">
-    <h2>Manage Products</h2>
+<section id="productsList" class="admin-page">
+    <h2>Add New Product</h2>
+    <form id="productForm" enctype="multipart/form-data">
+        <select id="category" required>
+            <option value="">Loading Categories...</option>
+        </select><br>
+        <input type="text" id="name" placeholder="Product Name" required><br>
+        <input type="number" id="price" placeholder="Price" required><br>
+  
+        <label>Main Image:</label><br>
+        <input type="file" id="mainImage" accept="image/*" required><br>
+        <div id="mainImagePreview" class="preview-container"></div>
+  
+        <label>Gallery Images:</label><br>
+        <input type="file" id="galleryImages" accept="image/*" multiple><br>
+        <div id="galleryPreview" class="preview-container"></div>
+  
+        <textarea id="description" rows="5" placeholder="Product Description" required></textarea><br>
+        <input type="text" id="buyLink" placeholder="Buy Now Link (optional)"><br>
+        <input type="text" id="seeMoreLink" placeholder="See More Link (optional)"><br>
+        <label>Special Category:</label><br>
+        <select id="specialCategory">
+            <option value="none">None</option>
+            <option value="Best Sellers">Best Sellers</option>
+            <option value="New Arrivals">New Arrivals</option>
+        </select><br><br>
+  
+        <button type="submit">Add Product</button>
+    </form>
+  
+    <h2 style="margin-top:40px;">Manage Products</h2>
     <ul id="products"></ul>
-</section>
-
-<!-- Modal for Editing -->
-<div id="editModal">
-    <div>
-        <h2 id="modalTitle">Edit</h2>
-        <form id="editForm" enctype="multipart/form-data">
-            <input type="hidden" id="editId">
-        
-            <input type="text" id="editName" placeholder="Name" required><br>
-        
-            <div id="productFields" style="display:none;">
-                <input type="number" id="editPrice" placeholder="Price"><br>
-                <textarea id="editDescription" rows="3" placeholder="Description"></textarea><br>
-        
-                <label>Special Category:</label>
-                <select id="editSpecialCategory">
-                    <option value="none">None</option>
-                    <option value="Best Sellers">Best Sellers</option>
-                    <option value="New Arrivals">New Arrivals</option>
-                </select><br>
-        
-                <label>Change Main Image:</label>
-                <input type="file" id="editMainImage" accept="image/*"><br>
-        
-                <label>Change Gallery Images:</label>
-                <input type="file" id="editGalleryImages" accept="image/*" multiple><br>
-            </div>
-        
-            <button type="submit">Save</button>
-            <button type="button" onclick="closeModal()">Cancel</button>
-        </form>
-        
+  </section>
+  
+<section id="orders" class="admin-page">
+    <h2>🧾 Manage Orders</h2>
+    <div style="margin-bottom: 20px;">
+      <input type="text" id="orderSearchId" placeholder="Search by Order ID" />
+      <input type="date" id="orderStartDate" />
+      <input type="date" id="orderEndDate" />
+      <button onclick="filterOrders()">Filter</button>
     </div>
-</div>
-<!-- Modal for Editing Category -->
-<div id="editCategoryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
-    <div style="background:white; padding:20px; border-radius:10px; width:90%; max-width:400px; position:relative; animation: popup 0.3s ease-out;">
-        <h2>Edit Category</h2>
-        <form id="editCategoryForm">
-            <input type="hidden" id="editCategoryId">
-            <input type="text" id="editCategoryName" placeholder="Category Name" required><br>
-            <button type="submit">Save</button>
-            <button type="button" onclick="closeCategoryModal()">Cancel</button>
-        </form>
+            <!-- <button onclick="exportOrdersToCSV()" class="admin-export-btn">📁 Export Orders to CSV</button> -->
+
+    <ul id="ordersList" class="order-list"></ul>
+  </section>
+  
+
+
+
+
+  <script>
+    let trafficChartInstance = null;
+    let sourceChartInstance = null;
+    
+    function showPage(id) {
+  document.querySelectorAll('.admin-page').forEach(el => el.style.display = 'none');
+  const target = document.getElementById(id);
+  if (target) target.style.display = 'block';
+}
+
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('show');
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage('home');
+      loadDashboard();
+      loadOrders();
+      loadCategories();
+      loadProducts();
+      
+    });
+    
+    // Toast Notifications
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+    
+    // Load Dashboard with Metrics & Charts
+    async function loadDashboard() {
+      try {
+        const [visitsRes, salesRes, ordersRes, chartRes, sourceRes] = await Promise.all([
+          fetch('http://localhost:3000/admin/analytics/visits'),
+          fetch('http://localhost:3000/admin/analytics/sales'),
+          fetch('http://localhost:3000/admin/analytics/orders'),
+          fetch('http://localhost:3000/admin/analytics/chart-data'),
+          fetch('http://localhost:3000/admin/analytics/sources'),
+        ]);
+    
+        const visitsData = await visitsRes.json();
+        const salesData = await salesRes.json();
+        const orders = await ordersRes.json();
+        const chartData = await chartRes.json();
+        const sourceData = await sourceRes.json();
+    
+        document.getElementById('siteVisits').innerHTML = `👥 Site Visits: <strong>${visitsData.visits}</strong>`;
+        document.getElementById('totalSales').innerHTML = `💰 Total Sales: <strong>$${salesData.totalSales.toFixed(2)}</strong>`;
+        document.getElementById('topProduct').innerHTML = `🔥 Top Product: <strong>${salesData.topProduct.name} (${salesData.topProduct.totalSold} sold)</strong>`;
+        const orderList = document.getElementById('recentOrders');
+
+        orderList.innerHTML = ''; // clear first
+        console.log("🔍 All orders received:", orders);
+orders.forEach((order, i) => {
+  console.log(`Order ${i}:`, order._id, 'status =', order.status);
+});
+
+        orders
+  .filter(order => (order.status || '').toLowerCase() === 'pending')
+  .forEach(order => {
+    const user = order.user || {};
+    const payment = order.paymentMethod || 'N/A';
+    const summary = `
+      <li>
+        <strong>🧾 ${order.products?.length || 0} items</strong> by ${user.firstName || 'Unknown'}
+        <br>
+        ${new Date(order.createdAt).toLocaleDateString()} – <strong>$${order.totalAmount.toFixed(2)}</strong>
+        <br>
+        Payment: ${payment}
+            Source: <strong>${order.source}</strong>
+
+      </li>
+    `;
+    orderList.innerHTML += summary;
+  });
+
+if (orderList.innerHTML.trim() === '') {
+  orderList.innerHTML = '<li>No pending orders</li>';
+}
+
+
+        if (trafficChartInstance) trafficChartInstance.destroy();
+        if (sourceChartInstance) sourceChartInstance.destroy();
+        console.log('📊 Chart Data:', chartData);
+console.log('📈 Source Data:', sourceData);
+
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        trafficChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: chartData.map(e => e.date),
+            datasets: [
+              {
+                label: 'Site Visits',
+                data: chartData.map(e => e.visits),
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37,99,235,0.2)',
+                fill: true,
+                tension: 0.3
+              },
+              {
+                label: 'Sales ($)',
+                data: chartData.map(e => e.sales),
+                borderColor: '#16a34a',
+                backgroundColor: 'rgba(22,163,74,0.2)',
+                fill: true,
+                tension: 0.3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'top' },
+              title: { display: true, text: 'Traffic & Sales Trends' }
+            }
+          }
+        });
+        console.log('📊 Chart Data:', chartData);
+console.log('📈 Source Data:', sourceData);
+
+        const srcCtx = document.getElementById('sourceChart').getContext('2d');
+        sourceChartInstance = new Chart(srcCtx, {
+          type: 'pie',
+          data: {
+            labels: sourceData.map(s => {
+              if (!s._id || s._id === 'unknown') return '🌐 Direct / Unknown';
+              return s._id.charAt(0).toUpperCase() + s._id.slice(1);
+            }),
+            datasets: [{
+              label: 'Sources',
+              data: sourceData.map(s => s.count),
+              backgroundColor: ['#2563eb', '#16a34a', '#facc15', '#ef4444', '#10b981']
+            }]
+          },
+          options: {
+            plugins: {
+              title: { display: true, text: 'Customer Source Breakdown' }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Dashboard load error:', err);
+      }
+    }
+    
+    let currentOrdersData = []; // for export
+
+// async function loadOrders(params = {}) {
+//   const url = new URL('http://localhost:3000/orders');
+//   if (params.orderId) url.searchParams.append('orderId', params.orderId);
+//   if (params.startDate && params.endDate) {
+//     url.searchParams.append('startDate', params.startDate);
+//     url.searchParams.append('endDate', params.endDate);
+//   }
+
+//   const res = await fetch(url);
+//   const orders = await res.json();
+//   console.log('🔍 First order products sample:', orders[0]?.products);
+
+//   currentOrdersData = orders; // Save for export
+
+//   const list = document.getElementById('ordersList');
+//   list.innerHTML = '';
+
+//   if (!orders.length) {
+//     list.innerHTML = '<li>No orders found.</li>';
+//     return;
+//   }
+
+//   for (let order of orders) {
+//     const user = order.user || {};
+//     const address = user.area && user.street
+//       ? `${user.area}, Block ${user.block}, Street ${user.street}, House #${user.houseNumber}`
+//       : 'N/A';
+//     const payment = order.paymentMethod || 'N/A';
+//     const statusClass = `status-${order.status || 'pending'}`;
+//     const products = (order.products || []).map(p =>
+//   `<li>${p.name || 'Unknown'} – Qty: ${p.quantity}</li>`
+// ).join('');
+
+
+//     const li = document.createElement('li');
+//     li.innerHTML = `
+//       <div>
+//         <strong>Order ID:</strong> ${order._id}<br>
+//         <strong>Buyer:</strong> ${user.firstName || 'Unknown'} ${user.lastName || ''}<br>
+//         <strong>Phone:</strong> ${order.userPhone}<br>
+//         <strong>Status:</strong> <span class="status-badge ${statusClass}">${order.status}</span><br>
+//         <strong>Total:</strong> $${order.totalAmount.toFixed(2)}
+//         <span class="details-toggle" onclick="toggleOrderDetails(this)">View Details</span>
+//         <div class="order-details">
+//           <strong>Address:</strong> ${address}<br>
+//           <strong>Payment:</strong> ${payment}<br>
+//           <strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}<br>
+//           <strong>Items:</strong>
+//           <ul>${products}</ul>
+//         </div>
+//       </div>
+//     `;
+//     list.appendChild(li);
+//   }
+// }
+function loadOrders() {
+  const list = document.getElementById('ordersList');
+  list.innerHTML = '';
+
+  fetch('http://localhost:3000/orders')
+    .then(res => res.json())
+    .then(orders => {
+        for (let order of orders) {
+  const user = order.user || {};
+  const address = user.area && user.street
+    ? `${user.area}, Block ${user.block}, Street ${user.street}, House #${user.houseNumber}`
+    : 'N/A';
+  const payment = order.paymentMethod || 'N/A';
+  const statusClass = `status-${order.status || 'pending'}`;
+  const products = (order.products || []).map(p =>
+    `<li>${p.name || 'Unknown'} – Qty: ${p.quantity}</li>`
+  ).join('');
+
+  const source = order.source || 'direct';
+  const medium = order.medium || '—';
+  const campaign = order.campaign || '—';
+  const firstSource = order.firstSource || '—';
+  const firstUtmMedium = order.firstUtmMedium || '—';
+  const firstUtmCampaign = order.firstUtmCampaign || '—';
+
+  const sourceIcon = {
+    instagram: '📸 Instagram',
+    youtube: '🎥 YouTube',
+    google: '🔍 Google',
+    facebook: '📘 Facebook',
+    direct: '🌐 Direct'
+  };
+
+  const decoratedSource = sourceIcon[source] || source;
+
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <div style="width: 100%;">
+      <strong>Order ID:</strong> ${order._id}<br>
+      <strong>Buyer:</strong> ${user.firstName || 'Unknown'} ${user.lastName || ''}<br>
+      <strong>Phone:</strong> ${order.userPhone}<br>
+      <strong>Status:</strong> 
+      <span class="status-badge ${statusClass}">${order.status}</span><br>
+      <select onchange="changeOrderStatus('${order._id}', this.value)" style="min-width: 160px; margin: 5px 0;">
+        <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+        <option value="making" ${order.status === 'making' ? 'selected' : ''}>Making</option>
+        <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+        <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+        <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+      </select>
+      <span class="details-toggle" onclick="toggleOrderDetails(this)">View Details</span>
+
+      <div class="order-details">
+        <strong>Total:</strong> $${order.totalAmount.toFixed(2)}<br>
+        <strong>Payment:</strong> ${payment}<br>
+        <strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}<br>
+        <strong>Address:</strong> ${address}<br>
+        <strong>Items:</strong>
+        <ul>${products}</ul>
+        <hr style="margin: 8px 0;">
+        <strong>Marketing Attribution</strong><br>
+        <strong>Source:</strong> ${decoratedSource}<br>
+        <strong>Medium:</strong> ${medium}<br>
+        <strong>Campaign:</strong> ${campaign}<br>
+        <strong>First Source:</strong> ${firstSource}<br>
+        <strong>First Medium:</strong> ${firstUtmMedium}<br>
+        <strong>First Campaign:</strong> ${firstUtmCampaign}<br>
+      </div>
     </div>
-</div>
+  `;
+  list.appendChild(li);
+}
+   })
+    .catch(err => {
+      console.error('❌ Failed to load orders:', err);
+    });
+}
+
+function toggleOrderDetails(btn) {
+  const details = btn.nextElementSibling;
+  if (!details) return;
+
+  const isVisible = details.style.display === 'block';
+  details.style.display = isVisible ? 'none' : 'block';
+
+  btn.innerText = isVisible ? 'View Details' : 'Hide Details';
+}
+
+function toggleOrderDetails(btn) {
+  const details = btn.nextElementSibling;
+  if (details) {
+    details.style.display = details.style.display === 'block' ? 'none' : 'block';
+  }
+}
 
 
-<!-- Scripts -->
-<script>
-// Elements
-const productForm = document.getElementById('productForm');
-const categoryForm = document.getElementById('categoryForm');
-const categorySelect = document.getElementById('category');
-const mainImageInput = document.getElementById('mainImage');
-const galleryImagesInput = document.getElementById('galleryImages');
-const mainImagePreview = document.getElementById('mainImagePreview');
-const galleryPreview = document.getElementById('galleryPreview');
+function exportOrdersToCSV() {
+  if (!currentOrdersData.length) return alert('No orders to export.');
 
-// Open Product Modal
-function openModal(title, id, name, isProduct = false, price = '', description = '', specialCategory = 'none') {
-    document.getElementById('modalTitle').innerText = title;
-    document.getElementById('editId').value = id;
-    document.getElementById('editName').value = name;
+  const headers = ['Order ID', 'Name', 'Phone', 'Status', 'Total ($)', 'Payment Method', 'Date'];
+  const rows = currentOrdersData.map(order => {
+    const user = order.user || {};
+    return [
+      order._id,
+      `${user.firstName || ''} ${user.lastName || ''}`,
+      order.userPhone || '',
+      order.status || '',
+      order.totalAmount.toFixed(2),
+      order.paymentMethod || '',
+      new Date(order.createdAt).toLocaleString()
+    ];
+  });
 
-    if (isProduct) {
+  const csvContent = [headers, ...rows]
+    .map(row => row.map(val => `"${val}"`).join(','))
+    .join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute('download', 'orders_export.csv');
+  link.click();
+}
+
+    async function changeOrderStatus(orderId, status) {
+      const res = await fetch(`http://localhost:3000/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    
+      if (res.ok) {
+        showToast('✅ Order status updated!');
+        loadOrders();
+      } else {
+        showToast('❌ Failed to update order.');
+      }
+    }
+    
+    function filterOrders() {
+      const orderId = document.getElementById('orderSearchId').value;
+      const start = document.getElementById('orderStartDate').value;
+      const end = document.getElementById('orderEndDate').value;
+      loadOrders({ orderId, startDate: start, endDate: end });
+    }
+    
+    // CATEGORY
+    async function loadCategories() {
+      const response = await fetch('http://localhost:3000/categories');
+      const categories = await response.json();
+    
+      const categorySelect = document.getElementById('category');
+      const categoriesList = document.getElementById('categories');
+      categorySelect.innerHTML = `<option value="">Select Category</option>`;
+      categoriesList.innerHTML = '';
+    
+      categories.forEach(cat => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${cat.name}
+          <div>
+            <button onclick="openCategoryModal('${cat._id}', '${cat.name}')">Edit</button>
+            <button onclick="deleteCategory('${cat._id}')">Delete</button>
+          </div>`;
+        categoriesList.appendChild(li);
+    
+        const option = document.createElement('option');
+        option.value = cat.name;
+        option.textContent = cat.name;
+        categorySelect.appendChild(option);
+      });
+    }
+    
+    document.getElementById('categoryForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const newCategory = document.getElementById('newCategory').value;
+    
+      try {
+        const res = await fetch('http://localhost:3000/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: newCategory })
+        });
+    
+        if (!res.ok) throw new Error('Failed to add category');
+        showToast('✅ Category added!');
+        document.getElementById('categoryForm').reset();
+        loadCategories();
+      } catch (err) {
+        showToast('❌ ' + err.message);
+      }
+    });
+    async function deleteCategory(id) {
+  if (!confirm('Are you sure you want to delete this category?')) return;
+
+  try {
+    const res = await fetch(`http://localhost:3000/categories/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (!res.ok) throw new Error('Failed to delete category');
+    showToast('✅ Category deleted!');
+    loadCategories();
+  } catch (err) {
+    showToast('❌ ' + err.message);
+  }
+}
+ 
+    // 🔧 MISSING CATEGORY EDIT HANDLER
+    document.getElementById('editCategoryForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const id = document.getElementById('editCategoryId').value;
+      const name = document.getElementById('editCategoryName').value;
+    
+      try {
+        const res = await fetch(`http://localhost:3000/categories/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+    
+        if (!res.ok) throw new Error('Failed to update category');
+        showToast('✅ Category updated!');
+        closeCategoryModal();
+        loadCategories();
+      } catch (err) {
+        showToast('❌ ' + err.message);
+      }
+    });
+    
+    // PRODUCTS
+    async function loadProducts() {
+      const response = await fetch('http://localhost:3000/products');
+      const products = await response.json();
+    
+      const productsList = document.getElementById('products');
+      productsList.innerHTML = '';
+    
+      products.forEach(prod => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${prod.name} ($${prod.price})
+          <div>
+            <button onclick="editProduct('${prod._id}')">Edit</button>
+            <button onclick="deleteProduct('${prod._id}')">Delete</button>
+          </div>`;
+        productsList.appendChild(li);
+      });
+    }
+    
+    async function editProduct(id) {
+      const res = await fetch(`http://localhost:3000/products/${id}`);
+      const product = await res.json();
+      openModal('Edit Product', id, product.name, true, product.price, product.description, product.specialCategory);
+    }
+    
+    function deleteProduct(id) {
+      if (!confirm('Delete this product?')) return;
+      fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' })
+        .then(res => {
+          if (res.ok) {
+            showToast('✅ Product deleted!');
+            loadProducts();
+          } else {
+            showToast('❌ Failed to delete product.');
+          }
+        });
+    }
+    
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+      const id = document.getElementById('editId').value;
+      const name = document.getElementById('editName').value;
+      const price = document.getElementById('editPrice').value;
+      const description = document.getElementById('editDescription').value;
+      const specialCategory = document.getElementById('editSpecialCategory').value;
+      const mainImage = document.getElementById('editMainImage').files[0];
+      const galleryImages = document.getElementById('editGalleryImages').files;
+    
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('price', price);
+      formData.append('description', description);
+      formData.append('specialCategory', specialCategory);
+    
+      if (mainImage) {
+        formData.append('mainImage', mainImage);
+      }
+      for (let img of galleryImages) {
+        formData.append('galleryImages', img);
+      }
+    
+      try {
+        const response = await fetch(`http://localhost:3000/products/${id}`, {
+          method: 'PUT',
+          body: formData
+        });
+    
+        if (!response.ok) throw new Error('Failed to update product');
+        showToast('✅ Product updated!');
+        closeModal();
+        loadProducts();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ ' + err.message);
+      }
+    });
+    
+    // Modal Utility
+    function openModal(title, id, name, isProduct = false, price = '', description = '', specialCategory = 'none') {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('editId').value = id;
+      document.getElementById('editName').value = name;
+    
+      if (isProduct) {
         document.getElementById('productFields').style.display = 'block';
         document.getElementById('editPrice').value = price;
         document.getElementById('editDescription').value = description;
         document.getElementById('editSpecialCategory').value = specialCategory;
-    } else {
+      } else {
         document.getElementById('productFields').style.display = 'none';
+      }
+    
+      document.getElementById('editModal').style.display = 'flex';
     }
-
-    document.getElementById('editModal').style.display = 'flex';
-}
-
-// Close Product Modal
-function closeModal() {
-    document.getElementById('editModal').style.display = 'none';
-}
-
-// Open Category Modal
-function openCategoryModal(id, name) {
-    document.getElementById('editCategoryId').value = id;
-    document.getElementById('editCategoryName').value = name;
-    document.getElementById('editCategoryModal').style.display = 'flex';
-}
-
-// Close Category Modal
-function closeCategoryModal() {
-    document.getElementById('editCategoryModal').style.display = 'none';
-}
-
-// Toast Notifications
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.style.display = 'block';
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 3000);
-}
-
-// Load Categories
-async function loadCategories() {
-    const response = await fetch('http://localhost:3000/categories');
-    const categories = await response.json();
-
-    categorySelect.innerHTML = `<option value="">Select Category</option>`;
-    const categoriesList = document.getElementById('categories');
-    categoriesList.innerHTML = '';
-
-    categories.forEach(cat => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            ${cat.name}
-            <div>
-                <button onclick="openCategoryModal('${cat._id}', '${cat.name}')">Edit</button>
-                <button onclick="deleteCategory('${cat._id}')">Delete</button>
-            </div>`;
-        categoriesList.appendChild(li);
-    });
-}
-
-// Load Products
-async function loadProducts() {
-    const response = await fetch('http://localhost:3000/products');
-    const products = await response.json();
-
-    const productsList = document.getElementById('products');
-    productsList.innerHTML = '';
-
-    products.forEach(prod => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            ${prod.name} ($${prod.price})
-            <div>
-                <button onclick="editProduct('${prod._id}')">Edit</button>
-                <button onclick="deleteProduct('${prod._id}')">Delete</button>
-            </div>`;
-        productsList.appendChild(li);
-    });
-}
-
-// Edit Product
-async function editProduct(id) {
-    const response = await fetch(`http://localhost:3000/products/${id}`);
-    if (!response.ok) {
-        showToast('❌ Product not found');
-        return;
+    
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
     }
-    const product = await response.json();
-    openModal('Edit Product', id, product.name, true, product.price, product.description, product.specialCategory);
-}
-
-// Delete Product
-function deleteProduct(id) {
-    if (confirm('Are you sure you want to delete this product?')) {
-        fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    showToast('✅ Product deleted!');
-                    loadProducts();
-                } else {
-                    showToast('❌ Failed to delete product.');
-                }
-            });
+    
+    function openCategoryModal(id, name) {
+      document.getElementById('editCategoryId').value = id;
+      document.getElementById('editCategoryName').value = name;
+      document.getElementById('editCategoryModal').style.display = 'flex';
     }
-}
-
-// Delete Category
-function deleteCategory(id) {
-    if (confirm('Are you sure you want to delete this category?')) {
-        fetch(`http://localhost:3000/categories/${id}`, { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    showToast('✅ Category deleted!');
-                    loadCategories();
-                } else {
-                    showToast('❌ Failed to delete category.');
-                }
-            });
+    
+    function closeCategoryModal() {
+      document.getElementById('editCategoryModal').style.display = 'none';
     }
-}
-
-// Submit Product Edit Form
-document.getElementById('editForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const id = document.getElementById('editId').value;
-    const name = document.getElementById('editName').value;
-    const price = document.getElementById('editPrice').value;
-    const description = document.getElementById('editDescription').value;
-    const specialCategory = document.getElementById('editSpecialCategory') ? document.getElementById('editSpecialCategory').value : 'none';
-    const mainImage = document.getElementById('editMainImage') ? document.getElementById('editMainImage').files[0] : null;
-    const galleryImages = document.getElementById('editGalleryImages') ? document.getElementById('editGalleryImages').files : [];
-
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('price', price);
-    formData.append('description', description);
-    formData.append('specialCategory', specialCategory);
-
-    if (mainImage) {
-        formData.append('mainImage', mainImage);
-    }
-    for (let img of galleryImages) {
-        formData.append('galleryImages', img);
-    }
-
-    try {
-        const response = await fetch(`http://localhost:3000/products/${id}`, {
-            method: 'PUT',
-            body: formData
+    </script>
+    <script>
+        document.getElementById('addCategoryBtn').addEventListener('click', function() {
+            const categoryName = prompt('Enter category name:');
+            if (categoryName) {
+                const li = document.createElement('li');
+                li.textContent = categoryName;
+                document.getElementById('categories').appendChild(li);
+            }
         });
-        if (!response.ok) throw new Error('Failed to update product.');
-
-        showToast('✅ Product updated successfully!');
-        closeModal();
-        loadProducts();
-    } catch (error) {
-        showToast('❌ ' + error.message);
-    }
-});
-
-// Submit Category Edit Form
-document.getElementById('editCategoryForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const id = document.getElementById('editCategoryId').value;
-    const name = document.getElementById('editCategoryName').value;
-
-    try {
-        const response = await fetch(`http://localhost:3000/categories/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name })
-        });
-
-        if (!response.ok) throw new Error('Failed to update category.');
-
-        showToast('✅ Category updated successfully!');
-        closeCategoryModal();
-        loadCategories();
-    } catch (error) {
-        showToast('❌ ' + error.message);
-    }
-});
-
-// Submit New Product
-productForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', document.getElementById('name').value);
-    formData.append('price', document.getElementById('price').value);
-    formData.append('category', categorySelect.value);
-    formData.append('description', document.getElementById('description').value);
-    formData.append('buyLink', document.getElementById('buyLink').value || '#');
-    formData.append('seeMoreLink', document.getElementById('seeMoreLink').value || '#');
-    formData.append('specialCategory', document.getElementById('specialCategory').value);
-
-    const mainImage = mainImageInput.files[0];
-    const galleryImages = galleryImagesInput.files;
-
-    if (mainImage) formData.append('mainImage', mainImage);
-    for (let img of galleryImages) {
-        formData.append('galleryImages', img);
-    }
-
-    try {
-        const response = await fetch('http://localhost:3000/products', {
-            method: 'POST',
-            body: formData
-        });
-        if (!response.ok) throw new Error('Failed to add product.');
-
-        showToast('✅ Product added!');
-        productForm.reset();
-        mainImagePreview.innerHTML = '';
-        galleryPreview.innerHTML = '';
-        loadProducts();
-    } catch (error) {
-        showToast('❌ ' + error.message);
-    }
-});
-
-// Submit New Category
-categoryForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const categoryName = document.getElementById('newCategory').value;
-
-    try {
-        const response = await fetch('http://localhost:3000/categories', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: categoryName })
-        });
-        if (!response.ok) throw new Error('Failed to add category.');
-
-        showToast('✅ Category added!');
-        categoryForm.reset();
-        loadCategories();
-    } catch (error) {
-        showToast('❌ ' + error.message);
-    }
-});
-
-// Preview Main Image
-mainImageInput.addEventListener('change', function () {
-    mainImagePreview.innerHTML = '';
-    if (this.files[0]) {
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(this.files[0]);
-        mainImagePreview.appendChild(img);
-    }
-});
-
-// Preview Gallery Images
-galleryImagesInput.addEventListener('change', function () {
-    galleryPreview.innerHTML = '';
-    for (let file of this.files) {
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
-        galleryPreview.appendChild(img);
-    }
-});
-
-// Initial Load
-loadCategories();
-loadProducts();
-
-</script>
+        </script>
+        
 <!-- Toast Notifications -->
 <div id="toast" style="position:fixed; top:20px; right:20px; background:#333; color:#fff; padding:10px 20px; border-radius:5px; display:none; z-index:2000; font-size:1rem;"></div>
 

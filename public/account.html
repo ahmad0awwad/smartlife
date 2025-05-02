@@ -1,0 +1,758 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Account - Smart Life Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8f8f8;
+        }
+        .account-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        form input {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #f26522;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        form button:hover {
+            background-color: #e04d00;
+        }
+        .order-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .order-status {
+            font-weight: bold;
+        }
+        .cancel-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cancel-btn:hover {
+            background: darkred;
+        }
+        @media(max-width: 600px) {
+            .account-container {
+                margin: 10px;
+                padding: 15px;
+            }
+            form input, form button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="account-container">
+    <h2>My Account</h2>
+
+    <h3>Profile Information</h3>
+    <form id="profileForm">
+        <input type="text" name="firstName" placeholder="First Name" required>
+        <input type="text" name="lastName" placeholder="Last Name" required>
+        <input type="text" name="area" placeholder="Area" required>
+        <input type="text" name="block" placeholder="Block" required>
+        <input type="text" name="street" placeholder="Street" required>
+        <input type="text" name="houseNumber" placeholder="House Number" required>
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <h3>Current Orders</h3>
+    <div id="currentOrders"></div>
+
+    <h3>Previous Orders</h3>
+    <div id="previousOrders"></div>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+    async function loadAccount() {
+        const phone = localStorage.getItem('userPhone');
+        if (!phone) {
+            window.location.href = '/auth.html';
+            return;
+        }
+
+        // Load profile
+        const userRes = await fetch('/user/' + phone);
+        const user = await userRes.json();
+        const form = document.getElementById('profileForm');
+        form.firstName.value = user.firstName;
+        form.lastName.value = user.lastName;
+        form.area.value = user.area;
+        form.block.value = user.block;
+        form.street.value = user.street;
+        form.houseNumber.value = user.houseNumber;
+
+        // Load orders
+        const ordersRes = await fetch('/orders/' + phone);
+        const orders = await ordersRes.json();
+
+        const currentDiv = document.getElementById('currentOrders');
+        const previousDiv = document.getElementById('previousOrders');
+
+        orders.forEach(order => {
+            const card = document.createElement('div');
+            card.className = 'order-card';
+            card.innerHTML = `
+                <p><strong>Order ID:</strong> ${order._id}</p>
+                <p><strong>Status:</strong> <span class="order-status">${order.status}</span></p>
+                <p><strong>Total:</strong> $${order.totalAmount}</p>
+                <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+            `;
+
+            if (order.status === 'pending') {
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'cancel-btn';
+                cancelBtn.textContent = 'Cancel Order';
+                cancelBtn.onclick = async () => {
+                    if (confirm('Are you sure you want to cancel this order?')) {
+                        await fetch('/orders/' + order._id, { method: 'DELETE' });
+                        alert('Order cancelled');
+                        window.location.reload();
+                    }
+                };
+                card.appendChild(cancelBtn);
+                currentDiv.appendChild(card);
+            } else if (order.status === 'shipping' || order.status === 'pending') {
+                currentDiv.appendChild(card);
+            } else if (order.status === 'delivered') {
+                previousDiv.appendChild(card);
+            }
+        });
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const phone = localStorage.getItem('userPhone');
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        const res = await fetch('/user/' + phone, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+            alert('Profile Updated Successfully!');
+            window.location.reload();
+        } else {
+            alert('Failed to update profile.');
+        }
+    });
+
+    function logout() {
+        localStorage.removeItem('userPhone');
+        window.location.href = '/';
+    }
+
+    loadAccount();
+</script>
+
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account - Smart Life Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 20px;
+    }
+    .account-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      font-size: 1.1rem;
+    }
+    .profile-input {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .btn {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+    }
+    .edit-btn { background: #f26522; }
+    .edit-btn:hover { background: #e04d00; }
+    .save-btn { background: green; }
+    .save-btn:hover { background: darkgreen; }
+    .logout-btn {
+      background: red;
+      margin-top: 30px;
+    }
+    .logout-btn:hover {
+      background: darkred;
+    }
+    .order-btn {
+      background: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .order-btn:hover {
+      background: #0056b3;
+    }
+    .order-details {
+      background: #eee;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="account-container">
+  <h2>My Account</h2>
+
+  <h3>Profile Information</h3>
+  <ul id="profileView">
+  </ul>
+
+  <form id="profileEditForm" style="display:none;">
+    <input type="text" id="firstName" class="profile-input" placeholder="First Name"><br>
+    <input type="text" id="lastName" class="profile-input" placeholder="Last Name"><br>
+    <input type="text" id="area" class="profile-input" placeholder="Area"><br>
+    <input type="text" id="block" class="profile-input" placeholder="Block"><br>
+    <input type="text" id="street" class="profile-input" placeholder="Street"><br>
+    <input type="text" id="houseNumber" class="profile-input" placeholder="House Number"><br>
+    <button type="button" class="btn save-btn" onclick="saveProfile()">Save Profile</button>
+  </form>
+
+  <button id="editButton" class="btn edit-btn" onclick="editProfile()">Edit Profile</button>
+
+  <h3>Current Orders</h3>
+  <ul id="currentOrders"></ul>
+
+  <h3>Previous Orders</h3>
+  <ul id="previousOrders"></ul>
+
+  <button class="btn logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<script>
+async function loadAccount() {
+  const phone = localStorage.getItem('userPhone');
+  if (!phone) {
+    window.location.href = '/auth.html';
+    return;
+  }
+
+  const userRes = await fetch('/user/' + phone);
+  const user = await userRes.json();
+  window.currentUser = user;
+  renderProfile(user);
+
+  const ordersRes = await fetch('/orders/' + phone);
+  const orders = await ordersRes.json();
+
+  const currentDiv = document.getElementById('currentOrders');
+  const previousDiv = document.getElementById('previousOrders');
+
+  orders.forEach(order => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <strong>Order ID:</strong> ${order._id} | <strong>Status:</strong> ${order.status}
+      <button class="order-btn" onclick="toggleDetails(this)">Details</button>
+      <div class="order-details">
+        ${order.products ? order.products.map(p => `<p>${p.productId.name} - Quantity: ${p.quantity}</p>`).join('') : ''}
+        <p><strong>Total Paid:</strong> $${order.totalAmount}</p>
+        <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+      </div>
+    `;
+
+    if (['pending', 'making', 'shipped'].includes(order.status)) {
+    currentDiv.appendChild(li);
+} else if (order.status === 'delivered') {
+    previousDiv.appendChild(li);
+}
+
+  });
+}
+
+function renderProfile(user) {
+  const view = document.getElementById('profileView');
+  view.innerHTML = `
+    <li>First Name = ${user.firstName}</li>
+    <li>Last Name = ${user.lastName}</li>
+    <li>Phone = ${user.phone}</li>
+    <li>Area = ${user.area}</li>
+    <li>Block = ${user.block}</li>
+    <li>Street = ${user.street}</li>
+    <li>House Number = ${user.houseNumber}</li>
+  `;
+}
+
+function editProfile() {
+  document.getElementById('profileView').style.display = 'none';
+  document.getElementById('editButton').style.display = 'none';
+  document.getElementById('profileEditForm').style.display = 'block';
+
+  const user = window.currentUser;
+  document.getElementById('firstName').value = user.firstName;
+  document.getElementById('lastName').value = user.lastName;
+  document.getElementById('area').value = user.area;
+  document.getElementById('block').value = user.block;
+  document.getElementById('street').value = user.street;
+  document.getElementById('houseNumber').value = user.houseNumber;
+}
+
+async function saveProfile() {
+  const phone = localStorage.getItem('userPhone');
+  const updatedData = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    area: document.getElementById('area').value.trim(),
+    block: document.getElementById('block').value.trim(),
+    street: document.getElementById('street').value.trim(),
+    houseNumber: document.getElementById('houseNumber').value.trim(),
+  };
+
+  const res = await fetch('/user/' + phone, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedData)
+  });
+
+  if (res.ok) {
+    alert('Profile Updated Successfully!');
+    window.currentUser = { ...window.currentUser, ...updatedData };
+
+    document.getElementById('profileEditForm').style.display = 'none';
+    document.getElementById('editButton').style.display = 'block';
+    document.getElementById('profileView').style.display = 'block';
+
+    renderProfile(window.currentUser);
+  } else {
+    alert('Failed to update profile.');
+  }
+}
+
+function toggleDetails(button) {
+  const details = button.nextElementSibling;
+  details.style.display = details.style.display === 'none' ? 'block' : 'none';
+}
+
+function logout() {
+  localStorage.removeItem('userPhone');
+  window.location.href = '/auth.html';
+}
+
+loadAccount();
+</script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account - Smart Life Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Fonts -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/trackSource.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.account-container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2, h3 {
+  text-align: center;
+  color: #333;
+}
+
+.account-list {
+  list-style: none;
+  padding: 0;
+}
+
+.account-list li {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+
+.account-input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.account-btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+}
+
+.edit-btn {
+  background: #f26522;
+}
+.edit-btn:hover {
+  background: #e04d00;
+}
+
+.save-btn {
+  background: green;
+}
+.save-btn:hover {
+  background: darkgreen;
+}
+
+.logout-btn {
+  background: red;
+  margin-top: 30px;
+}
+.logout-btn:hover {
+  background: darkred;
+}
+
+.order-btn {
+  background: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.order-btn:hover {
+  background: #0056b3;
+}
+
+.order-details {
+  background: #eee;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 5px;
+  display: none;
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Header Section Start -->
+<div class="banner_bg_main">
+  <div class="header_section">
+    <div class="container">
+      <div class="containt_main">
+
+        <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="contact.html">Contact</a>
+          <a href="auth.html">Sign In/Sign Up</a>
+          <div id="categoryLinks"></div>
+        </div>
+
+        <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png" alt="menu"></span>
+
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+            All Category
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+
+        <div class="main">
+          <div class="input-group" style="position: relative;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+            <div id="searchResults" style="position:absolute; top:100%; left:0; right:0; background:white; z-index:1000; max-height:400px; overflow-y:auto; border:1px solid #ccc; border-top:none; display:none; padding:10px;">
+            </div>
+          </div>
+        </div>
+
+        <div class="header_box">
+          <div class="lang_box">
+            <a href="index.html" title="logo">
+              <img src="images/logolc.png" alt="Logo" class="logo_img">
+            </a>
+          </div>
+          <div class="login_menu">
+            <ul>
+              <li>
+                <a href="cart.html" style="position:relative;">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  <span class="padding_10">Cart</span>
+                  <span id="cart-count" style="
+                    background: red;
+                    color: white;
+                    border-radius: 50%;
+                    padding: 1px 6px;
+                    font-size: 0.7rem;
+                    position: absolute;
+                    top: -5px;
+                    right: -10px;
+                    line-height: 1;">0</span>
+                </a>
+              </li>
+              <li>
+                <a href="auth.html">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span class="padding_10">Sign In</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Header Section End -->
+
+<!-- Account Section -->
+<div class="account-container">
+  <h2>My Account</h2>
+
+  <h3>Profile Information</h3>
+  <ul id="profileView" class="account-list"></ul>
+
+  <form id="profileEditForm" style="display:none;">
+    <input type="text" id="firstName" class="account-input" placeholder="First Name"><br>
+    <input type="text" id="lastName" class="account-input" placeholder="Last Name"><br>
+    <input type="text" id="area" class="account-input" placeholder="Area"><br>
+    <input type="text" id="block" class="account-input" placeholder="Block"><br>
+    <input type="text" id="street" class="account-input" placeholder="Street"><br>
+    <input type="text" id="houseNumber" class="account-input" placeholder="House Number"><br>
+    <button type="button" class="account-btn save-btn" onclick="saveProfile()">Save Profile</button>
+  </form>
+
+  <button id="editButton" class="account-btn edit-btn" onclick="editProfile()">Edit Profile</button>
+
+  <h3>Current Orders</h3>
+  <ul id="currentOrders" class="account-list"></ul>
+
+  <h3>Previous Orders</h3>
+  <ul id="previousOrders" class="account-list"></ul>
+
+  <button class="account-btn logout-btn" onclick="logout()">Logout</button>
+</div>
+
+
+<script>
+async function loadAccount() {
+  const phone = localStorage.getItem('userPhone');
+  if (!phone) return window.location.href = '/auth.html';
+
+  const userRes = await fetch('/user/' + phone);
+  const user = await userRes.json();
+  window.currentUser = user;
+  renderProfile(user);
+
+  const ordersRes = await fetch('/orders/' + phone);
+  const orders = await ordersRes.json();
+
+  const currentDiv = document.getElementById('currentOrders');
+  const previousDiv = document.getElementById('previousOrders');
+
+  orders.forEach(order => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <strong>Order ID:</strong> ${order._id} | <strong>Status:</strong> ${order.status}
+      <button class="order-btn" onclick="toggleDetails(this)">Details</button>
+      <div class="order-details">
+        ${order.products ? order.products.map(p => `<p>${p.productId.name} - Quantity: ${p.quantity}</p>`).join('') : ''}
+        <p><strong>Total Paid:</strong> $${order.totalAmount}</p>
+        <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+      </div>
+    `;
+    if (['pending', 'making', 'shipped'].includes(order.status)) {
+      currentDiv.appendChild(li);
+    } else if (order.status === 'delivered') {
+      previousDiv.appendChild(li);
+    }
+  });
+}
+
+function renderProfile(user) {
+  const view = document.getElementById('profileView');
+  view.innerHTML = `
+    <li>First Name = ${user.firstName}</li>
+    <li>Last Name = ${user.lastName}</li>
+    <li>Phone = ${user.phone}</li>
+    <li>Area = ${user.area}</li>
+    <li>Block = ${user.block}</li>
+    <li>Street = ${user.street}</li>
+    <li>House Number = ${user.houseNumber}</li>
+  `;
+}
+
+function editProfile() {
+  document.getElementById('profileView').style.display = 'none';
+  document.getElementById('editButton').style.display = 'none';
+  document.getElementById('profileEditForm').style.display = 'block';
+  const u = window.currentUser;
+  ['firstName','lastName','area','block','street','houseNumber'].forEach(field => {
+    document.getElementById(field).value = u[field];
+  });
+}
+
+async function saveProfile() {
+  const phone = localStorage.getItem('userPhone');
+  const updatedData = Object.fromEntries(
+    ['firstName','lastName','area','block','street','houseNumber'].map(field => 
+      [field, document.getElementById(field).value.trim()]
+    )
+  );
+  const res = await fetch('/user/' + phone, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedData)
+  });
+  if (res.ok) {
+    alert('Profile Updated Successfully!');
+    Object.assign(window.currentUser, updatedData);
+    renderProfile(window.currentUser);
+    document.getElementById('profileEditForm').style.display = 'none';
+    document.getElementById('editButton').style.display = 'block';
+    document.getElementById('profileView').style.display = 'block';
+  } else {
+    alert('Failed to update profile.');
+  }
+}
+
+function toggleDetails(button) {
+  const details = button.nextElementSibling;
+  details.style.display = details.style.display === 'none' ? 'block' : 'none';
+}
+
+function logout() {
+  localStorage.removeItem('userPhone');
+  window.location.href = '/auth.html';
+}
+
+loadAccount();
+</script>
+
+</body>
+</html>

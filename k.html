@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Category Management</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    form { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Category Form -->
+  <form id="categoryForm">
+    <input type="text" id="newCategory" placeholder="New category name" required />
+    <button type="submit">Add Category</button> <!-- ✅ THIS is the add button -->
+  </form>
+
+  <!-- Categories List -->
+  <section id="categoriesList" class="admin-page">
+    <h2>Manage Categories</h2>
+    <ul id="categories"></ul>
+  </section>
+
+  <script>
+    // Add category via form
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('categoryForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const newCategory = document.getElementById('newCategory').value;
+
+        try {
+          const res = await fetch('http://localhost:3000/categories', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: newCategory })
+          });
+
+          if (!res.ok) throw new Error('Failed to add category');
+          alert('✅ Category added!');
+          document.getElementById('categoryForm').reset();
+          loadCategories();
+        } catch (err) {
+          alert('❌ ' + err.message);
+        }
+      });
+
+      loadCategories(); // initial fetch
+    });
+
+    // Dummy loader function
+    async function loadCategories() {
+      try {
+        const res = await fetch('http://localhost:3000/categories');
+        const categories = await res.json();
+        const list = document.getElementById('categories');
+        list.innerHTML = '';
+        categories.forEach(cat => {
+          const li = document.createElement('li');
+          li.textContent = cat.name;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading categories:', err);
+      }
+    }
+  </script>
+
+</body>
+</html>

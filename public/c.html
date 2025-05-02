@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - SmartLife Shop</title>
+  <style>
+    :root {
+      --color-background: #fae3ea;
+      --color-primary: #fc8080;
+      --font-family-base: Poppin, sans-serif;
+      --font-size-h1: 1.25rem;
+      --font-size-h2: 1rem;
+    }
+    * { box-sizing: inherit; }
+    html { box-sizing: border-box; }
+    body {
+      background-color: var(--color-background);
+      display: grid;
+      font-family: var(--font-family-base);
+      line-height: 1.5;
+      margin: 0;
+      min-block-size: 100vh;
+      padding: 5vmin;
+      place-items: center;
+    }
+    address { font-style: normal; }
+    button {
+      border: 0;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    input {
+      border: 1px solid #ccc;
+      background: white;
+      color: black;
+      font: inherit;
+      padding: 0.75em;
+      border-radius: 0.5em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    fieldset { border: 0; margin: 0; padding: 0; }
+    h1 { font-size: var(--font-size-h1); margin-block: 0 1.5em; }
+    h2 { font-size: var(--font-size-h2); margin-block: 0 0.5em; }
+    legend { font-weight: 600; margin-block-end: 0.5em; padding: 0; }
+    input[type="radio"] { accent-color: var(--color-primary); }
+    table { border-collapse: collapse; inline-size: 100%; }
+    tbody { color: #b4b4b4; }
+    td { padding-block: 0.125em; }
+    tfoot { border-top: 1px solid #b4b4b4; font-weight: 600; }
+    .align { display: grid; place-items: center; }
+    .button {
+      align-items: center;
+      background-color: var(--color-primary);
+      border-radius: 999em;
+      color: #fff;
+      display: flex;
+      gap: 0.5em;
+      justify-content: center;
+      padding-block: 0.75em;
+      padding-inline: 1em;
+      transition: 0.3s;
+    }
+    .button:hover { background-color: #e96363; }
+    .button--full { inline-size: 100%; }
+    .card {
+      border-radius: 1em;
+      background-color: var(--color-primary);
+      color: #fff;
+      padding: 1em;
+    }
+    .form { display: grid; gap: 2em; }
+    .form__radios { display: grid; gap: 1em; }
+    .form__radio {
+      align-items: center;
+      background-color: #fefdfe;
+      border-radius: 1em;
+      box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
+      display: flex;
+      padding: 1em;
+    }
+    .form__radio label {
+      align-items: center;
+      display: flex;
+      flex: 1;
+      gap: 1em;
+    }
+    .header { display: flex; justify-content: center; padding-block: 0.5em; padding-inline: 1em; }
+    .icon {
+      block-size: 1em;
+      display: inline-block;
+      fill: currentColor;
+      inline-size: 1em;
+      vertical-align: middle;
+    }
+    .iphone {
+      background-color: #fbf6f7;
+      background-image: linear-gradient(to bottom, #fbf6f7, #fff);
+      border-radius: 2em;
+      block-size: 812px;
+      box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
+      inline-size: 375px;
+      overflow: auto;
+      padding: 2em;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="iphone">
+  <header class="header">
+    <h1>Checkout</h1>
+  </header>
+
+  <div id="addressSection"></div>
+
+  <fieldset>
+    <legend>Payment Method</legend>
+    <div class="form__radios">
+      <div class="form__radio">
+        <label for="cash"><svg class="icon"><use xlink:href="#icon-visa"/></svg>Cash</label>
+        <input checked id="cash" name="payment-method" value="Cash" type="radio" />
+      </div>
+      <div class="form__radio">
+        <label for="applepay"><svg class="icon"><use xlink:href="#icon-mastercard"/></svg>Apple Pay</label>
+        <input id="applepay" name="payment-method" value="ApplePay" type="radio" />
+      </div>
+    </div>
+  </fieldset>
+
+  <h2>Shopping Cart Items</h2>
+  <div id="checkoutCartItems">
+    <!-- Cart items will load here -->
+  </div>
+
+  <div>
+    <button class="button button--full" id="buyNowButton">
+      <svg class="icon"><use xlink:href="#icon-shopping-bag"/></svg>Buy Now
+    </button>
+  </div>
+</div>
+
+
+<script>
+  let user = null;
+  let cart = {};
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Make sure user is logged in
+    const phone = localStorage.getItem('userPhone');
+    if (!phone) {
+      alert('⚠️ You must be logged in to continue.');
+      window.location.href = '/auth.html';
+      return;
+    }
+  
+    // 2. Load user profile from backend
+    try {
+      const userRes = await fetch('/user/' + phone);
+      user = await userRes.json();
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (err) {
+      console.error('❌ Failed to fetch user:', err);
+      alert('Failed to load user profile.');
+      return;
+    }
+  
+    // 3. Load cart from localStorage
+    const cartRaw = localStorage.getItem('cart');
+    if (!cartRaw) {
+      console.warn('🛒 Cart not found.');
+      document.getElementById('checkoutCartItems').innerHTML = '<p>🛒 Your cart is empty.</p>';
+      return;
+    }
+  
+    try {
+      cart = JSON.parse(cartRaw);
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        document.getElementById('checkoutCartItems').innerHTML = '<p>🛒 Your cart is empty.</p>';
+        return;
+      }
+    } catch (err) {
+      console.error('❌ Invalid cart JSON:', err);
+      return;
+    }
+  
+    // 4. Render the page
+    renderAddressSection();
+    loadCheckoutCart();
+  });
+  
+  // Renders saved address or form
+  function renderAddressSection(editMode = false) {
+    const section = document.getElementById('addressSection');
+  
+    if (!user || editMode) {
+      section.innerHTML = `
+        <div class="card">
+          <form id="addressForm">
+            <input type="text" name="firstName" placeholder="First Name" value="${user?.firstName || ''}" required><br><br>
+            <input type="text" name="lastName" placeholder="Last Name" value="${user?.lastName || ''}" required><br><br>
+            <input type="text" name="phone" placeholder="Phone Number" value="${user?.phone || ''}" required><br><br>
+            <input type="email" name="email" placeholder="Email" value="${user?.email || ''}" required><br><br>
+            <input type="password" name="password" placeholder="Password" value="${user?.password || ''}" required><br><br>
+            <input type="text" name="area" placeholder="Area" value="${user?.area || ''}" required><br><br>
+            <input type="text" name="street" placeholder="Street" value="${user?.street || ''}" required><br><br>
+            <input type="text" name="block" placeholder="Block" value="${user?.block || ''}" required><br><br>
+            <input type="text" name="houseNumber" placeholder="House Number" value="${user?.houseNumber || ''}" required><br><br>
+            <button type="submit" class="button button--full">💾 Save Address</button>
+          </form>
+        </div>
+      `;
+  
+      document.getElementById('addressForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        user = Object.fromEntries(formData.entries());
+        localStorage.setItem('user', JSON.stringify(user));
+  
+        try {
+          await fetch('/user/' + user.phone, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user),
+          });
+          alert('✅ Address Saved');
+          renderAddressSection();
+        } catch (err) {
+          console.error('❌ Address save failed:', err);
+          alert('Failed to update address.');
+        }
+      });
+  
+    } else {
+      section.innerHTML = `
+        <div class="card">
+          <address>
+            ${user.firstName} ${user.lastName}<br>
+            Phone: ${user.phone}<br>
+            ${user.street} Street, Block ${user.block}, House ${user.houseNumber}<br>
+            Area: ${user.area}<br>
+            Email: ${user.email}
+          </address>
+          <button class="button button--full" onclick="renderAddressSection(true)">✏️ Edit Address</button>
+        </div>
+      `;
+    }
+  }
+  
+  // Renders cart UI
+  async function loadCheckoutCart() {
+    const cartProductIds = Object.keys(cart);
+    const response = await fetch('http://localhost:3000/products');
+    const products = await response.json();
+  
+    let content = '';
+    for (let productId of cartProductIds) {
+      const quantity = cart[productId];
+      const product = products.find(p => p._id.toString() === productId.toString());
+  
+      if (!product) {
+        console.warn(`⚠️ Product ${productId} not found`);
+        continue;
+      }
+  
+      const subtotal = product.price * quantity;
+      content += `
+        <div class="cart-item">
+          <h4>${product.name}</h4>
+          <p>Quantity: ${quantity}</p>
+          <p>Subtotal: $${subtotal.toFixed(2)}</p>
+        </div>
+        <hr/>
+      `;
+    }
+  
+    document.getElementById('checkoutCartItems').innerHTML = content;
+  }
+  
+  // Order submission
+  document.getElementById('buyNowButton').addEventListener('click', async function () {
+    const cartProductIds = Object.keys(cart);
+    if (cartProductIds.length === 0) {
+      alert('🛒 Your cart is empty.');
+      return;
+    }
+  
+    const response = await fetch('http://localhost:3000/products');
+    const products = await response.json();
+  
+    const items = cartProductIds.map(id => {
+      const product = products.find(p => p._id.toString() === id);
+      return {
+        productId: id,
+        quantity: cart[id],
+        price: product ? product.price : 0
+      };
+    });
+  
+    const totalAmount = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+  
+    // const order = {
+    //   userPhone: user.phone,
+    //   products: items,
+    //   totalAmount,
+    //   status: 'pending',
+    //   createdAt: new Date().toISOString()
+    // };
+    const order = {
+  userPhone,
+  products,
+  totalAmount,
+  source: localStorage.getItem('visitorSource') || 'direct',
+  medium: localStorage.getItem('utmMedium') || '',
+  campaign: localStorage.getItem('utmCampaign') || '',
+  firstSource: localStorage.getItem('firstVisitorSource') || '',
+  firstUtmMedium: localStorage.getItem('firstUtmMedium') || '',
+  firstUtmCampaign: localStorage.getItem('firstUtmCampaign') || ''
+};
+
+  
+    try {
+      const orderRes = await fetch('/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order)
+      });
+  
+      if (orderRes.ok) {
+        alert('✅ Order placed!');
+        localStorage.removeItem('cart');
+        window.location.href = 'account.html';
+      } else {
+        alert('❌ Failed to place order.');
+      }
+    } catch (err) {
+      console.error('❌ Order error:', err);
+      alert('Something went wrong during checkout.');
+    }
+  });
+  </script>
+    <script src="js/trackSource.js"></script>
+
+</body>
+</html>
